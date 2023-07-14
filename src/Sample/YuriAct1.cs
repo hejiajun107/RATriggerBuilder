@@ -9,7 +9,7 @@ namespace Sample
 {
     public class YuriAct1 : TriggerTemplate
     {
-        public override void Process()
+        protected override void Process()
         {
             Context.CreateTrigger().Name("AutoWin").Owner(Country.YuriCountry).OnEnter(Country.YuriCountry)
             .Next(
