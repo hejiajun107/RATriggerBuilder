@@ -3,6 +3,8 @@
     public class TriggerBuilder
     {
 
+        private TriggerBuilder() { }
+
         public static TriggerBuilder CreateBuilder()
         {
             return new TriggerBuilder();
