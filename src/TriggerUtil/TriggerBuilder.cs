@@ -3,12 +3,8 @@
     public class TriggerBuilder
     {
 
-        private TriggerBuilder() { }
+        public TriggerBuilder(TriggerContext context) { }
 
-        public static TriggerBuilder CreateBuilder()
-        {
-            return new TriggerBuilder();
-        }
 
         /// <summary>
         /// 触发名称
@@ -47,13 +43,6 @@
         {
             return this;
         }
-
-
-        public string Build()
-        {
-            return string.Empty;
-        }
-
 
 
         #region 条件
