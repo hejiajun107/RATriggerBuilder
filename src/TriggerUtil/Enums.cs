@@ -26,4 +26,17 @@ namespace TriggerUtil
         OneTimeAnd,
         RepeatingOr
     }
+
+    public enum Player
+    {
+        PlayerA = 4475, 
+        PlayerB = 4476,
+        PlayerC = 4477,
+        PlayerD = 4478,
+        PlayerE = 4479, 
+        PlayerF = 4480,
+        PlayerG = 4481,
+        PlayerH = 4482
+    }
+
 }
