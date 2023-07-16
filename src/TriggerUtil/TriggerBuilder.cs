@@ -2003,6 +2003,24 @@
 
 
 
+
+
+        /// <summary>
+        /// 援军(作战小队)[在路径点]...
+        /// 在特定的路径点创建援军作战小队。小队成员会被直接刷出，刷兵路径点为行为设置中的路径点。
+        /// </summary>
+        /// <param name="teamType">作战小队</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoReinforcementsAt(string teamType,int wayPoint)
+        {
+            actions.Add($"80,1,{teamType},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+
+
+
         /// <summary>
         /// 计时器文本
         /// 指定计时器显示的文本，参数为CSF文件内的项目。
@@ -2012,6 +2030,22 @@
         public TriggerBuilder DoSetTimerLabel(string label)
         {
             actions.Add($"103,4,css,0,0,0,0,A");
+            return this;
+        }
+
+
+
+
+        /// <summary>
+        /// 超时空传送援军... 
+        /// 在特定的路径点创建援军作战小队，并播放传送动画。小队成员会凭空分散刷出。
+        /// </summary>
+        /// <param name="teamType">作战小队</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChronoReinforceAt(string teamType, int wayPoint)
+        {
+            actions.Add($"107,1,{teamType},0,0,0,0,{wayPoint.To26()}");
             return this;
         }
 
