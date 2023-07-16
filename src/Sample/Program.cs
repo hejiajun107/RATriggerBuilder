@@ -11,3 +11,5 @@ act1.Build("./Output/act1.ini");
 //在已有的地图上附加触发
 act1.Append("./Maps/test.mpr");
 
+
+

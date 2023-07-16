@@ -212,7 +212,7 @@
         /// <returns></returns>
         public TriggerBuilder DoDeclareWinner(Enum owner)
         {
-            actions.Add($"1,{owner.GetHashCode()},0,0,0,0,0,A");
+            actions.Add($"1,0,{owner.GetHashCode()},0,0,0,0,A");
             return this;
         }
         /// <summary>
@@ -222,7 +222,7 @@
         /// <returns></returns>
         public TriggerBuilder DoDeclareWinner(int owner)
         {
-            actions.Add($"1,{owner},0,0,0,0,0,A");
+            actions.Add($"1,0,{owner},0,0,0,0,A");
             return this;
         }
 
@@ -234,7 +234,7 @@
         /// <returns></returns>
         public TriggerBuilder DoDeclareLoser(Enum owner)
         {
-            actions.Add($"2,{owner.GetHashCode()},0,0,0,0,0,A");
+            actions.Add($"2,0,{owner.GetHashCode()},0,0,0,0,A");
             return this;
         }
         /// <summary>
@@ -244,7 +244,7 @@
         /// <returns></returns>
         public TriggerBuilder DoDeclareLoser(int owner)
         {
-            actions.Add($"2,{owner.GetHashCode()},0,0,0,0,0,A");
+            actions.Add($"2,0,{owner.GetHashCode()},0,0,0,0,A");
             return this;
         }
 
@@ -294,7 +294,7 @@
         /// <returns></returns>
         public TriggerBuilder DoCheer(Enum owner)
         {
-            actions.Add($"113,{owner.GetHashCode()},0,0,0,0,0,A");
+            actions.Add($"113,0,{owner.GetHashCode()},0,0,0,0,A");
             return this;
         }
         /// <summary>
@@ -304,7 +304,7 @@
         /// <returns></returns>
         public TriggerBuilder DoCheer(int owner)
         {
-            actions.Add($"113,{owner},0,0,0,0,0,A");
+            actions.Add($"113,0,{owner},0,0,0,0,A");
             return this;
         }
 

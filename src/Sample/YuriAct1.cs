@@ -13,7 +13,7 @@ namespace Sample
         {
             Context.CreateTrigger().Name("AutoWin").Owner(Country.YuriCountry).OnEnter(Country.YuriCountry)
             .Next(
-                Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).Next
+                Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).DoCheer(Country.YuriCountry).Next
                 (
                     Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).DoDeclareWinner(Country.YuriCountry)
                 )
