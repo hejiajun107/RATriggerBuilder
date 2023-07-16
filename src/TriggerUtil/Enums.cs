@@ -39,4 +39,56 @@ namespace TriggerUtil
         PlayerH = 4482
     }
 
+    public enum ViewMoveSpeed
+    {
+        VerySlow,
+        Slow,
+        Normal,
+        Fast,
+        VeryFast
+    }
+
+    public enum SpotLightBehavior
+    {
+        /// <summary>
+        /// 无局部照明
+        /// </summary>
+        None,
+        /// <summary>
+        /// 照明特定角度
+        /// </summary>
+        SpeficAnlge,
+        /// <summary>
+        /// 圆圈
+        /// </summary>
+        Circle,
+        /// <summary>
+        /// 跟随敌对目标
+        /// </summary>
+        FocusOnEnermy,
+    }
+
+    public enum RadarEvent
+    {
+        Combat,
+        NonCombat,
+        DropZone,
+        BaseAttack,
+        HarvestAttack,
+        EnemySensed,
+        UnitReady,
+        UnitLost,
+        UnitRepaired,
+        BuildingInfiltrated,
+        BuildingCaptured,
+        BeaconPlaced,
+        SWDetected,
+        SWActivated,
+        BridgeRepaired,
+        GarrisonAbandoned,
+        AllyAttack,
+
+    }
+
+
 }

@@ -719,7 +719,7 @@
         /// </summary>
         /// <param name="idx">局部变量序号</param>
         /// <returns></returns>
-        public TriggerBuilder OnVariableSet(int idx)
+        public TriggerBuilder OnLocalVariableSet(int idx)
         {
             events.Add($"36,0,{idx}");
             return this;
@@ -731,7 +731,7 @@
         /// </summary>
         /// <param name="idx">局部变量序号</param>
         /// <returns></returns>
-        public TriggerBuilder OnVariableClear(int idx)
+        public TriggerBuilder OnLocalVariableClear(int idx)
         {
             events.Add($"37,0,{idx}");
             return this;
@@ -1411,6 +1411,449 @@
 
 
         /// <summary>
+        /// 强制触发事件...
+        /// 强制特定类型的所有触发事件进行触发，不管触发此事件的条件。不要对该触发本身使用！
+        /// </summary>
+        /// <param name="trigger">触发Id</param>
+        /// <returns></returns>
+        public TriggerBuilder DoTriggerForce(string trigger)
+        {
+            if (trigger == UniqueId)
+                throw new Exception("强制触发不允许触发自身");
+            actions.Add($"22,2,{trigger},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 计时开始
+        /// 启动全局任务计时器。一定时间内可显示的全局计时器有且只有一个。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoStartTimer()
+        {
+            actions.Add($"23,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 计时停止
+        /// 停止全局任务计时器。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoStopTimer()
+        {
+            actions.Add($"24,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 计时器计时增加..
+        /// 将全局任务计时器增加指定的时间。
+        /// </summary>
+        /// <param name="count">时间</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAddTimer(int count)
+        {
+            actions.Add($"25,0,{count},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 计时器计时缩短...
+        /// 将全局任务计时器减少指定的时间。时间不会减到 0 以下。
+        /// </summary>
+        /// <param name="count">时间</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSubstractTimer(int count)
+        {
+            actions.Add($"26,0,{count},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 计时设置...
+        /// 将全局任务计时器设置为指定的时间值。
+        /// </summary>
+        /// <param name="count">时间</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetTimer(int count)
+        {
+            actions.Add($"27,0,{count},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 设置全局变量...
+        /// 设置全局变量(1)。全局变量在Rules(md).ini中的[VariableNames]里定义。
+        /// </summary>
+        /// <param name="idx">变量序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetGlobalVariable(int idx)
+        {
+            actions.Add($"28,0,{idx},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 清除全局变量
+        /// 清除全局变量(0)。全局变量在Rules(md).ini中的[VariableNames]里定义。
+        /// </summary>
+        /// <param name="idx">变量序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoClearGlobalVariable(int idx)
+        {
+            actions.Add($"29,0,{idx},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 自动建设基地...
+        /// 初始化电脑遭遇战模式的建设控制，可以是[ON]或[OFF]状态。当设为[ON]且电脑所属方无基地节点时，将会像遭遇战模式那样自动进行建设(要确保有建造场)；如果有基地节点，则仍会建造节点对应的建筑。
+        /// </summary>
+        /// <param name="allowed">是/否</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAutoConstract(bool allowed = true)
+        {
+            actions.Add($"30,0,{(allowed ? 1 : 0)},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 逐单元延伸黑幕
+        /// 增大地图的黑幕(一步一单元)，需要相应的延伸黑幕INI设置才能使用。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoExtendFog()
+        {
+            actions.Add($"31,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 摧毁关联对象
+        /// 摧毁该触发关联的任何建筑物、桥梁或者单位。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoDestroy()
+        {
+            actions.Add($"32,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 添加一次特定超武
+        /// 为触发所属方添加一次(只一次)特定超武。在这里设置的核弹可以发射。
+        /// </summary>
+        /// <param name="superWeaponType">超武序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoGiveSuperWeaponOnce(Enum superWeaponType)
+        {
+            return DoGiveSuperWeaponOnce(superWeaponType.GetHashCode());
+        }
+
+        /// <summary>
+        /// 添加一次特定超武
+        /// 为触发所属方添加一次(只一次)特定超武。在这里设置的核弹可以发射。
+        /// </summary>
+        /// <param name="superWeaponType">超武序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoGiveSuperWeaponOnce(int superWeaponType)
+        {
+            actions.Add($"33,0,{superWeaponType},0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 重复添加特定超武
+        /// 为触发所属方添加永久的特定超武。在这里设置的核弹无法正常发射。
+        /// </summary>
+        /// <param name="superWeaponType">超武序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoGiveSuperWeapon(Enum superWeaponType)
+        {
+            return DoGiveSuperWeapon(superWeaponType.GetHashCode());
+        }
+
+        /// <summary>
+        /// 重复添加特定超武
+        /// 为触发所属方添加永久的特定超武。在这里设置的核弹无法正常发射。
+        /// </summary>
+        /// <param name="superWeaponType">超武序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoGiveSuperWeapon(int superWeaponType)
+        {
+            actions.Add($"34,0,{superWeaponType},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 超武首选目标为特定建筑...
+        /// 指定触发所属方的 电脑玩家 使用超武攻击时的首选目标，参数为[BuildingTypes]里的ID。只对打击性超武（如核弹、闪电，Ares对应SW.AITargeting=Offensive）有效。
+        /// </summary>
+        /// <param name="buildingType"></param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetAISuperWeaponTarget(Enum buildingType)
+        {
+            return DoSetAISuperWeaponTarget(buildingType.GetHashCode());
+        }
+
+        /// <summary>
+        /// 超武首选目标为特定建筑...
+        /// 指定触发所属方的 电脑玩家 使用超武攻击时的首选目标，参数为[BuildingTypes]里的ID。只对打击性超武（如核弹、闪电，Ares对应SW.AITargeting=Offensive）有效。
+        /// </summary>
+        /// <param name="buildingType">建筑序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetAISuperWeaponTarget(int buildingType)
+        {
+            actions.Add($"35,0,{buildingType},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 全部更改所属...
+        /// 触发所属方的所有对象更改所属到特定所属方。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChangeAllHouse(Enum house)
+        {
+            return DoChangeAllHouse(house);
+        }
+
+        /// <summary>
+        /// 全部更改所属...
+        /// 触发所属方的所有对象更改所属到特定所属方。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChangeAllHouse(int house)
+        {
+            actions.Add($"36,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 结盟...
+        /// 使触发所属方与特定所属方结盟。单人任务中是不完全双向结盟（比如A、B双方互不攻击，B有A视野 而 A无B视野。AB同时与对方结盟时，双方均没有对方视野），多人任务中是单向结盟。若多人任务中有至少两个玩家选与触发所属方相同的国家，则只选一个参与结盟。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAlliedWith(Enum house)
+        {
+            return DoAlliedWith(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 结盟...
+        /// 使触发所属方与特定所属方结盟。单人任务中是不完全双向结盟（比如A、B双方互不攻击，B有A视野 而 A无B视野。AB同时与对方结盟时，双方均没有对方视野），多人任务中是单向结盟。若多人任务中有至少两个玩家选与触发所属方相同的国家，则只选一个参与结盟。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAlliedWith(int house)
+        {
+            actions.Add($"37,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 成为敌人...
+        /// 使触发所属方与特定所属方不结盟(宣战)，这个效果是单向的。
+        /// </summary>
+        /// <param name="house"></param>
+        /// <returns></returns>
+        public TriggerBuilder DoBeEnermyWith(Enum house)
+        {
+            return DoBeEnermyWith(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 成为敌人...
+        /// 使触发所属方与特定所属方不结盟(宣战)，这个效果是单向的。
+        /// </summary>
+        /// <param name="house"></param>
+        /// <returns></returns>
+        public TriggerBuilder DoBeEnermyWith(int house)
+        {
+            actions.Add($"38,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 调整玩家视野大小
+        /// 调整玩家在地图内的矩形视野。格式：左,上,宽,高，其中左、上决定左上角位置，宽、高决定宽度和高度。可先用编辑→地图参数里预设以确定范围
+        /// </summary>
+        /// <param name="x">左</param>
+        /// <param name="y">上</param>
+        /// <param name="w">宽</param>
+        /// <param name="h">高</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChangePlayerView(int x,int y,int w,int h)
+        {
+            actions.Add($"40,0,0,{x},{y},{w},{h},A");
+            return this;
+        }
+
+        /// <summary>
+        /// 播放动画在...
+        /// 在特定的路径点播放特定的动画，参数为[Animations]里的动画ID。原版动画注册表存在序号漂移，建议使用脚本或Excel予以修正。
+        /// </summary>
+        /// <param name="animType">动画</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayAnimAt(Enum animType, int wayPoint)
+        {
+            return DoPlayAnimAt(animType.GetHashCode(),wayPoint);
+        }
+
+
+        /// <summary>
+        /// 播放动画在...
+        /// 在特定的路径点播放特定的动画，参数为[Animations]里的动画ID。原版动画注册表存在序号漂移，建议使用脚本或Excel予以修正。
+        /// </summary>
+        /// <param name="animType">动画</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayAnimAt(int animType,int wayPoint)
+        {
+            actions.Add($"41,0,{animType},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+        /// <summary>
+        /// 武器（弹头）爆炸在...
+        /// 使用特定「武器的弹头」在指定路径点产生一次爆炸，但无法触发弹头的特殊效果。参数为[WeaponTypes]里的武器ID（从1开始），若无该注册表（或者注册表里没有所填ID）则取[Warheads]里的弹头ID。
+        /// </summary>
+        /// <param name="weaponType">武器</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoExplodeWeaponAt(Enum weaponType, int wayPoint)
+        {
+            return DoExplodeWeaponAt(weaponType.GetHashCode(), wayPoint);
+        }
+
+        /// <summary>
+        /// 武器（弹头）爆炸在...
+        /// 使用特定「武器的弹头」在指定路径点产生一次爆炸，但无法触发弹头的特殊效果。参数为[WeaponTypes]里的武器ID（从1开始），若无该注册表（或者注册表里没有所填ID）则取[Warheads]里的弹头ID。
+        /// </summary>
+        /// <param name="weaponType">武器</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoExplodeWeaponAt(int weaponType, int wayPoint)
+        {
+            actions.Add($"42,0,{weaponType},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+        /// <summary>
+        /// 播放 Voxel 动画
+        /// 在指定路径点播放VXL动画，参数为Rules(md).ini中[VoxelAnims]里的ID。其中8是陨石。
+        /// </summary>
+        /// <param name="voxelAnim">vxl动画</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayVoxelAnimAt(Enum voxelAnim, int wayPoint)
+        {
+            return DoPlayVoxelAnimAt(voxelAnim.GetHashCode(),wayPoint);
+        }
+
+        /// <summary>
+        /// 播放 Voxel 动画
+        /// 在指定路径点播放VXL动画，参数为Rules(md).ini中[VoxelAnims]里的ID。其中8是陨石。
+        /// </summary>
+        /// <param name="voxelAnim">vxl动画</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayVoxelAnimAt(int voxelAnim, int wayPoint)
+        {
+            actions.Add($"43,0,{voxelAnim},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 禁止玩家输入
+        /// 禁止玩家进行操作，失去鼠标无法控制。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoDisablePlayerControl()
+        {
+            actions.Add($"46,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 允许玩家输入
+        /// 允许玩家进行操作，取消动作46的效果。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoEnablePlayerControl()
+        {
+            actions.Add($"47,0,0,0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 移动并居中视野到路径点...
+        /// 将玩家视野移动到特定的路径点。速度取1～4，太大会造成卡屏，无法移动视野。
+        /// </summary>
+        /// <param name="speed">卷动速度</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoMoveViewTo(ViewMoveSpeed speed,int wayPoint)
+        {
+            actions.Add($"48,0,{speed.GetHashCode()},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+        /// <summary>
+        /// 放大视野
+        /// 放大玩家视野。减少分辨率，同时不能输入。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoZoomInView()
+        {
+            actions.Add($"49,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 缩小视野
+        /// 缩小玩家视野。可以取消49放大视野的作用，增加分辨率，恢复输入。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoZoomOutView()
+        {
+            actions.Add($"50,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 重置全地图黑幕
+        /// 触发所属方将会被重置整张地图的黑幕。联机使用容易RE(重新连线错误)。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoResetFog()
+        {
+            actions.Add($"51,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 更改照明状态 (Ares平台有效)
+        /// 更改与该触发关联的探照灯建筑的照明方式。0：无局部照明、1：照明特定角度、2：圆圈、3：跟随敌对目标
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoChangeSpotLightBehavior(SpotLightBehavior behavior)
+        {
+            actions.Add($"52,0,{behavior.GetHashCode()},0,0,0,0,A");
+            return this;
+        }
+
+
+
+        /// <summary>
         /// 允许触发
         /// </summary>
         /// <param name="triggerId">触发Id</param>
@@ -1442,9 +1885,135 @@
             return this;
         }
 
+        /// <summary>
+        /// 建立小地图事件
+        /// 在特定的路径点建立雷达小地图事件。0、3、4：红框，1、2：黄框，5：蓝框。
+        /// </summary>
+        /// <param name="radarEvent">雷达事件类型</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoRaiseRadarEvent(RadarEvent radarEvent,int wayPoint)
+        {
+            actions.Add($"55,0,{radarEvent.GetHashCode()},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+        /// <summary>
+        /// 设置局部变量
+        /// 设置局部变量标记(1)。
+        /// </summary>
+        /// <param name="variable">局部变量序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetLocalVariable(int variable)
+        {
+            actions.Add($"56,0,{variable},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 清除局部变量
+        /// 清除局部变量标记(0)。
+        /// </summary>
+        /// <param name="variable">局部变量序号</param>
+        /// <returns></returns>
+        public TriggerBuilder DoClearLocalVariable(int variable)
+        {
+            actions.Add($"57,0,{variable},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 变卖关联建筑
+        /// 变卖所有与此触发关联的建筑。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoSellBuilding()
+        {
+            actions.Add($"60,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 关闭关联建筑
+        /// 关闭与此触发关联的建筑。效果与建筑中耗能=0相同。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoShutDownBuilding()
+        {
+            actions.Add($"61,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 启动关联建筑
+        /// 启动与此触发关联的建筑。效果与建筑中耗能=1相同。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoSwitchOnBuilding()
+        {
+            actions.Add($"62,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 在...造成100点伤害
+        /// 在特定的路径点造成100点爆炸伤害，对于建筑的实际效果约为500点，可以摧毁地面桥梁。
+        /// </summary>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder Do100DamageAt(int wayPoint)
+        {
+            actions.Add($"63,0,{wayPoint},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 宣告胜利...
+        /// 宣告玩家胜利。但不会显示“任务完成”的图片。。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoDeclarePlayerWin()
+        {
+            actions.Add($"67,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 宣告失败...
+        /// 宣告玩家失败。但不会显示“任务失败”的图片。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoDeclarePlayerLose()
+        {
+            actions.Add($"68,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 强制结束任务
+        /// 强制结束游戏任务。会显示“任务完成”的图片。
+        /// </summary>
+        /// <returns></returns>
+        public TriggerBuilder DoTerminateMission()
+        {
+            actions.Add($"69,0,0,0,0,0,0,A");
+            return this;
+        }
 
 
 
+
+        /// <summary>
+        /// 计时器文本
+        /// 指定计时器显示的文本，参数为CSF文件内的项目。
+        /// </summary>
+        /// <param name="label">csf文本</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSetTimerLabel(string label)
+        {
+            actions.Add($"103,4,css,0,0,0,0,A");
+            return this;
+        }
 
 
 
@@ -1457,6 +2026,7 @@
         {
             return DoCheer(owner.GetHashCode());
         }
+
         /// <summary>
         /// 让特定所属方的所有空闲的步兵单位执行欢呼动作。
         /// </summary>
