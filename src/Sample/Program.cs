@@ -4,4 +4,4 @@ using TriggerUtil;
 
 
 var act1 = new YuriAct1();
-act1.Build();
+act1.Build("./Output/act1.ini");

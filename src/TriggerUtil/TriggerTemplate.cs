@@ -22,7 +22,7 @@ namespace TriggerUtil
 
         private bool _hasBuilt = false;
 
-        public string Build()
+        public bool Build(string path)
         {
             if (!_hasBuilt) 
             {
@@ -30,7 +30,7 @@ namespace TriggerUtil
                 Process();
             }
             
-            return string.Empty;
+            return Context.Compile(path);
         }
     }
 

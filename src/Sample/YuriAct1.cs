@@ -27,9 +27,11 @@ namespace Sample
            public const int GAWEAP = 200;
         }
 
-        internal class Country
+        internal enum Country
         {
-           public const string YuriCountry = "YuriCountry";
+           American,
+           Russian,
+           YuriCountry = 9
         }
     }
 }
