@@ -1091,6 +1091,7 @@
         }
 
         /// <summary>
+        /// 胜利者是...
         /// 特定的所属方会成为胜利者，游戏会立即结束。通常被指定的是玩家所属方，单人战役若胜利方不是玩家所属方，则玩家失败。多人地图时此结果变为“失败者是”的效果。
         /// </summary>
         /// <param name="owner">所属方</param>
@@ -1100,6 +1101,7 @@
             return DoDeclareWinner(owner.GetHashCode());
         }
         /// <summary>
+        /// 胜利者是...
         /// 特定的所属方会成为胜利者，游戏会立即结束。通常被指定的是玩家所属方，单人战役若胜利方不是玩家所属方，则玩家失败。多人地图时此结果变为“失败者是”的效果。
         /// </summary>
         /// <param name="owner">所属方</param>
@@ -1112,6 +1114,7 @@
 
 
         /// <summary>
+        /// 失败者是...
         /// 特定的所属方会成为失败者，游戏会立即结束。通常被指定的是玩家所属方。多人地图时此结果变为“胜利者是”的效果。
         /// </summary>
         /// <param name="owner">所属方</param>
@@ -1121,6 +1124,7 @@
             return DoDeclareLoser(owner.GetHashCode());
         }
         /// <summary>
+        /// 失败者是...
         /// 特定的所属方会成为失败者，游戏会立即结束。通常被指定的是玩家所属方。多人地图时此结果变为“胜利者是”的效果。
         /// </summary>
         /// <param name="owner">所属方</param>
@@ -1128,6 +1132,280 @@
         public TriggerBuilder DoDeclareLoser(int owner)
         {
             actions.Add($"2,0,{owner.GetHashCode()},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 生产开始
+        /// 特定的电脑所属方将开始生产单位和建筑。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoStartProduction(Enum house)
+        {
+            return DoStartProduction(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 生产开始
+        /// 特定的电脑所属方将开始生产单位和建筑。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoStartProduction(int house)
+        {
+            actions.Add($"3,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 建立作战小队
+        /// 建立一个指定的作战小队 (归属于触发所属方)。通常会直接从已有单位中招募，但无法招募已经加入其他小队的单位。如果没有足够的单位来组建小队，AI会通过生产补足(自动建造)。当所有成员就位时，小队即自动建立。
+        /// </summary>
+        /// <param name="team">作战小队Id</param>
+        /// <returns></returns>
+        public TriggerBuilder DoEstablishTeam(string team)
+        {
+            actions.Add($"4,1,{team},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 解散作战小队
+        /// 解散当前存在的所有特定类型的作战小队。小队的单位会保留，并可以作为新兵加入其他小队。
+        /// </summary>
+        /// <param name="team">作战小队Id</param>
+        /// <returns></returns>
+        public TriggerBuilder DoDissolveTeam(string team)
+        {
+            actions.Add($"5,1,{team},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 全部寻敌
+        /// 特定的所属方的所有单位进入寻敌(Hunt)模式。他们将搜索并消灭敌人。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAllHunt(Enum house)
+        {
+            return DoAllHunt(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 全部寻敌
+        /// 特定的所属方的所有单位进入寻敌(Hunt)模式。他们将搜索并消灭敌人。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoAllHunt(int house)
+        {
+            actions.Add($"6,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 援军(作战小队)...
+        /// 创建由指定作战小队组成的援军。小队成员直接刷出，刷兵路径点为小队设置中的路径点。
+        /// </summary>
+        /// <param name="team">作战小队Id</param>
+        /// <returns></returns>
+        public TriggerBuilder DoReinforcements(string team)
+        {
+            actions.Add($"7,1,{team},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 降落区闪烁(路径点)...
+        /// 在指定路径点显示一个空降舱降落区域动画，该动画为循环播放。此区域附近的地图也将会显示。
+        /// </summary>
+        /// <param name="wapPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoBlinkDropZone(int wapPoint)
+        {
+            actions.Add($"8,0,0,0,0,0,0,{wapPoint.To26()}");
+            return this;
+        }
+
+        /// <summary>
+        /// 卖掉全部建筑...
+        /// 特定所属方会变卖掉所有建筑(来得到金钱和单位)。常用于电脑发动的最后攻击。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSellAllBuilding(Enum house)
+        {
+            return DoSellAllBuilding(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 卖掉全部建筑...
+        /// 特定所属方会变卖掉所有建筑(来得到金钱和单位)。常用于电脑发动的最后攻击。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoSellAllBuilding(int house)
+        {
+            actions.Add($"9,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 全屏播放影片...
+        /// 全屏播放特定影片。游戏在此期间将会暂停，在播放完成后自动恢复正常。
+        /// </summary>
+        /// <param name="movie">影片</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayMovieFullScreen(string movie)
+        {
+            actions.Add($"10,0,{movie},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 文本触发事件...
+        /// 显示文本内容，参数为CSF文件内的项目。CSF文件需要用CSF编辑器编辑。
+        /// </summary>
+        /// <param name="label">CSF中的label</param>
+        /// <returns></returns>
+        public TriggerBuilder DoTriggerText(string label)
+        {
+            actions.Add($"11,4,{label},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 摧毁触发事件...
+        /// 摧毁所有特定触发事件的当前实例。但不会阻止已经被触发完成的实例(包括正在建立中的)。
+        /// </summary>
+        /// <param name="triggerid">触发id</param>
+        /// <returns></returns>
+        public TriggerBuilder DoDestroyTrigger(string triggerid)
+        {
+            actions.Add($"12,2,{triggerid},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 开始自动创建作战小队...
+        /// 特定所属方会开始自动创建。这会使得电脑所属方在它认为合适的时机自动建造作战小队。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoStartEstablishTeam(Enum house)
+        {
+            return DoStartEstablishTeam(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 开始自动创建作战小队...
+        /// 特定所属方会开始自动创建。这会使得电脑所属方在它认为合适的时机自动建造作战小队。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoStartEstablishTeam(int house)
+        {
+            actions.Add($"13,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 更改所属方...
+        /// 更改关联对象到特定的所属方。对象装载的载员不受此触发的作用。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChangeHouse(Enum house)
+        {
+            return DoChangeHouse(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 更改所属方...
+        /// 更改关联对象到特定的所属方。对象装载的载员不受此触发的作用。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoChangeHouse(int house)
+        {
+            actions.Add($"14,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 显示全地图
+        /// 为玩家显示全部地图(清除黑幕)。联机使用会导致RE(重新连线错误)。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public TriggerBuilder DoRevealWholeMap()
+        {
+            actions.Add($"16,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 显示路径点周围区域
+        /// 为玩家显示特定路径点周围的一片地图区域。
+        /// </summary>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoRevealWayPoint(int wayPoint)
+        {
+            actions.Add($"17,0,{wayPoint},0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 显示路径点的单元区域
+        /// 为玩家显示由路径点划定的「区域」中所有的格子。「区域」的定义参见事件24。详细解释另见工具教程里的“触发备忘”。。
+        /// </summary>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public TriggerBuilder DoRevealWayPointZone(int wayPoint)
+        {
+            actions.Add($"18,0,{wayPoint},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 播放音效...
+        /// 播放特定音效。在Sound(md).ini中定义。
+        /// </summary>
+        /// <param name="sound">音效的注册名</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlaySound(string sound)
+        {
+            actions.Add($"19,7,{sound},0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 播放音乐...
+        /// 播放特定音乐。在Theme(md).ini中定义。
+        /// </summary>
+        /// <param name="sound">音乐的注册名</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayMusic(string music)
+        {
+            actions.Add($"20,8,{music},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 播放语音...
+        /// 播放特定语音。在Eva(md).ini中定义。
+        /// </summary>
+        /// <param name="eva">eva的注册名</param>
+        /// <returns></returns>
+        public TriggerBuilder DoPlayEva(string eva)
+        {
+            actions.Add($"21,6,{eva},0,0,0,0,A");
             return this;
         }
 
