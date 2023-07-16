@@ -83,22 +83,34 @@
 
         public string BuildTagString()
         {
-            return $"{RepeatType.GetHashCode()},{TriggerName},{UniqueId}";
+            var str = $"{RepeatType.GetHashCode()},{TriggerName},{UniqueId}";
+            if (str.Length >= 512)
+                throw new ArgumentOutOfRangeException($"{str} of {TriggerName} is too long");
+            return str;
         }
 
         public string BuildTriggerString()
         {
-            return $"{_owner},{(string.IsNullOrWhiteSpace(RelateTriggerId) ? "<none>" : RelateTriggerId)},{TriggerName},{(Disabled ? 1 : 0)},{(EasyEnabled ? 1 : 0)},{(NormalEnabled ? 1 : 0)},{(HardEnabled ? 1 : 0)},0";
+            var str = $"{_owner},{(string.IsNullOrWhiteSpace(RelateTriggerId) ? "<none>" : RelateTriggerId)},{TriggerName},{(Disabled ? 1 : 0)},{(EasyEnabled ? 1 : 0)},{(NormalEnabled ? 1 : 0)},{(HardEnabled ? 1 : 0)},0";
+            if (str.Length >= 512)
+                throw new ArgumentOutOfRangeException($"{str} of {TriggerName} is too long");
+            return str;
         }
 
         public string BuildActionString()
         {
-            return $"{actions.Count},{string.Join(",", actions)}";
+            var str = $"{actions.Count},{string.Join(",", actions)}";
+            if (str.Length >= 512)
+                throw new ArgumentOutOfRangeException($"{str} of {TriggerName} is too long");
+            return str;
         }
 
         public string BuildEventsString()
         {
-            return $"{actions.Count},{string.Join(",", events)}";
+            var str = $"{actions.Count},{string.Join(",", events)}";
+            if (str.Length >= 512)
+                throw new ArgumentOutOfRangeException($"{str} of {TriggerName} is too long");
+            return str;
         }
 
 
