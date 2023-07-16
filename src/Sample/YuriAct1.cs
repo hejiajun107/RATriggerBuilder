@@ -7,7 +7,7 @@ using TriggerUtil;
 
 namespace Sample
 {
-    public class YuriAct1 : TriggerTemplate
+    public partial class YuriAct1 : TriggerTemplate
     {
         protected override void Process()
         {
@@ -18,20 +18,6 @@ namespace Sample
                     Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).DoDeclareWinner(Country.YuriCountry)
                 )
             );
-        }
-
-
-        internal class BuildingTypes
-        {
-           public const int NAHAND = 100;
-           public const int GAWEAP = 200;
-        }
-
-        internal enum Country
-        {
-           American,
-           Russian,
-           YuriCountry = 9
         }
     }
 }
