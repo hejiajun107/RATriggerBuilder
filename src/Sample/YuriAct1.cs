@@ -12,12 +12,8 @@ namespace Sample
         protected override void Process()
         {
             Context.CreateTrigger().Name("AutoWin").Owner(Country.YuriCountry).OnEnter(Country.YuriCountry).DoDisableSelf()
-            .Next(
-                Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).DoCheer(Country.YuriCountry).DoDisableSelf().Next
-                (
-                    Context.CreateTrigger().Owner(Country.YuriCountry).OnTimeElapse(100).DoDeclareWinner(Country.YuriCountry).DoDisableSelf()
-                )
-            );
+            .Next(x => x.Owner(Country.YuriCountry).OnTimeElapse(100).DoCheer(Country.YuriCountry).DoDisableSelf())
+            .Next(x=> x.Owner(Country.YuriCountry).OnTimeElapse(100).DoDeclareWinner(Country.YuriCountry).DoDisableSelf());
         }
     }
 }

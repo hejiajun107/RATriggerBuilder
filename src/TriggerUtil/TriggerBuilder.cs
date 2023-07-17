@@ -11,9 +11,12 @@
 
         public TriggerBuilder(TriggerContext context) 
         {
+            _context = context;
             UniqueId = IdGenerator.NextId();
             TriggerName = UniqueId;
         }
+
+        private TriggerContext _context;
 
         private List<string> actions = new List<string>();
         private List<string> events = new List<string>();
@@ -125,15 +128,40 @@
             return this;
         }
 
+
         /// <summary>
-        /// 下一个触发，在动作中会开启下一个触发
+        /// 包含触发，在动作中会开启下一个触发，并返回当前触发
+        /// </summary>
+        /// <param name="nextTrigger"></param>
+        /// <returns></returns>
+        public TriggerBuilder Contain(TriggerBuilder nextTrigger)
+        {
+            DoEnable(nextTrigger.UniqueId);
+            return this;
+        }
+
+        /// <summary>
+        /// 下一个触发，在动作中会开启下一个触发，并返回下一个触发
         /// </summary>
         /// <param name="nextTrigger"></param>
         /// <returns></returns>
         public TriggerBuilder Next(TriggerBuilder nextTrigger)
         {
             DoEnable(nextTrigger.UniqueId);
-            return this;
+            return nextTrigger;
+        }
+
+        /// <summary>
+        /// 下一个触发，在动作中会开启下一个触发，并返回下一个触发
+        /// </summary>
+        /// <param name="nextTrigger"></param>
+        /// <returns></returns>
+        public TriggerBuilder Next(Action<TriggerBuilder> next)
+        {
+            var trigger = _context.CreateTrigger();
+            next(trigger);
+            DoEnable(trigger.UniqueId);
+            return trigger;
         }
 
         /// <summary>
