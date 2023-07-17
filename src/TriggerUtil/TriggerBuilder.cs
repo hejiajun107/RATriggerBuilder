@@ -14,12 +14,15 @@
             _context = context;
             UniqueId = IdGenerator.NextId();
             TriggerName = UniqueId;
+            Tag = IdGenerator.NextId();
         }
 
         private TriggerContext _context;
 
         private List<string> actions = new List<string>();
         private List<string> events = new List<string>();
+
+        public string Tag { get; private set; }
 
         public string TriggerName { get; private set; }
 
@@ -110,7 +113,7 @@
 
         public string BuildEventsString()
         {
-            var str = $"{actions.Count},{string.Join(",", events)}";
+            var str = $"{events.Count},{string.Join(",", events)}";
             if (str.Length >= 512)
                 throw new ArgumentOutOfRangeException($"{str} of {TriggerName} is too long");
             return str;
@@ -128,6 +131,12 @@
             return this;
         }
 
+        public TriggerBuilder SetDisabled(bool disabled = true)
+        {
+            Disabled = disabled;
+            return this;
+        }
+
 
         /// <summary>
         /// 包含触发，在动作中会开启下一个触发，并返回当前触发
@@ -136,6 +145,7 @@
         /// <returns></returns>
         public TriggerBuilder Contain(TriggerBuilder nextTrigger)
         {
+            nextTrigger.Disabled = true;
             DoEnable(nextTrigger.UniqueId);
             return this;
         }
@@ -147,6 +157,7 @@
         /// <returns></returns>
         public TriggerBuilder Next(TriggerBuilder nextTrigger)
         {
+            nextTrigger.Disabled = true;
             DoEnable(nextTrigger.UniqueId);
             return nextTrigger;
         }
@@ -159,6 +170,7 @@
         public TriggerBuilder Next(Action<TriggerBuilder> next)
         {
             var trigger = _context.CreateTrigger();
+            trigger.Disabled = true;
             next(trigger);
             DoEnable(trigger.UniqueId);
             return trigger;

@@ -22,5 +22,15 @@ namespace Sample
            Russian,
            YuriCountry = 9
         }
+
+        internal enum Eva
+        {
+            EVA_BattleControlTerminated,
+            EVA_PrimaryObjectiveAchieved,
+            EVA_EstablishBattlefieldControl,
+            EVA_IncomingTransmission,
+            EVA_ReinforcementsHaveArrived,
+            EVA_BattleControlOnline
+        }
     }
 }

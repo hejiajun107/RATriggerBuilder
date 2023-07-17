@@ -83,7 +83,7 @@ namespace TriggerUtil
             IniData data = new IniData();
             foreach (var trigger in triggers)
             {
-                data["Tags"][trigger.UniqueId] = trigger.BuildTagString();
+                data["Tags"][trigger.Tag] = trigger.BuildTagString();
                 data["Triggers"][trigger.UniqueId] = trigger.BuildTriggerString();
                 data["Events"][trigger.UniqueId] = trigger.BuildEventsString();
                 data["Actions"][trigger.UniqueId] = trigger.BuildActionString();
