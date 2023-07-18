@@ -26,6 +26,25 @@ namespace TriggerUtil
             //}
         }
 
+        private static HashSet<int> fiexedNums = new HashSet<int>();
+
+        /// <summary>
+        /// 获取固定Id
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static string FixedId(int num)
+        {
+            if(fiexedNums.Add(num))
+            {
+                return "04" + num.ToString().PadLeft(6, '0');
+            }
+            else
+            {
+                throw new Exception("固定Id已被使用");
+            }
+        }
+
         
     }   
 }
