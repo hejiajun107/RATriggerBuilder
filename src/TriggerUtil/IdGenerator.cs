@@ -38,7 +38,7 @@ namespace TriggerUtil
         {
             if(fiexedNums.Add(num))
             {
-                return "04" + num.ToString().PadLeft(6, '0');
+                return "03C" + num.ToString().PadLeft(5, '0');
             }
             else
             {
