@@ -10,9 +10,10 @@ namespace TriggerUtil
     {
         private static int TriggerCounter = 0;
 
-        public static string NextId()
+        public static (string trigger,string tag) NextId()
         {
-            return "03" + TriggerCounter++.ToString().PadLeft(6, '0');
+            TriggerCounter++;
+            return ("03A" + TriggerCounter.ToString().PadLeft(5, '0'), ("03B" + TriggerCounter.ToString().PadLeft(5, '0')));
             //switch (idType)
             //{
             //    case IdType.Trigger:

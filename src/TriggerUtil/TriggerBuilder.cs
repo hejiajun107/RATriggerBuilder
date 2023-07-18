@@ -12,9 +12,10 @@
         public TriggerBuilder(TriggerContext context) 
         {
             _context = context;
-            UniqueId = IdGenerator.NextId();
+            var id = IdGenerator.NextId();
+            UniqueId = id.trigger;
             TriggerName = UniqueId;
-            Tag = IdGenerator.NextId();
+            Tag = id.tag;
         }
 
         private TriggerContext _context;
