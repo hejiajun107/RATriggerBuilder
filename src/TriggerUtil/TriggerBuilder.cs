@@ -163,6 +163,20 @@
         }
 
         /// <summary>
+        /// 包含触发，在动作中会开启下一个触发，并返回当前触发
+        /// </summary>
+        /// <param name="nextTrigger"></param>
+        /// <returns></returns>
+        public TriggerBuilder Contain(Action<TriggerBuilder> next)
+        {
+            var trigger = _context.CreateTrigger();
+            trigger.Disabled = true;
+            next(trigger);
+            DoEnable(trigger.UniqueId);
+            return this;
+        }
+
+        /// <summary>
         /// 下一个触发，在动作中会开启下一个触发，并返回下一个触发
         /// </summary>
         /// <param name="nextTrigger"></param>
