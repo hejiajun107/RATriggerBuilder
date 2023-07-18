@@ -78,7 +78,7 @@
         /// </summary>
         /// <param name="num">序号，唯一</param>
         /// <returns></returns>
-        public TriggerBuilder FixedTag(int num)
+        public TriggerBuilder SetFixedTag(int num)
         {
             Tag = IdGenerator.FixedId(num);
             return this;
