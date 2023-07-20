@@ -115,8 +115,8 @@ namespace TriggerUtil
                 vm.Nodes.Add(new Node()
                 {
                     Id = trigger.UniqueId,
-                    Name = trigger.TriggerName ?? trigger.UniqueId,
-                    Value = trigger.Description,
+                    Name = (trigger.TriggerName ?? trigger.UniqueId),
+                    Value = trigger.Description +"\n" + "events:" + trigger.BuildEventsString() + "\n" + "actions:" + trigger.BuildActionString(),
                     Category = 0,
                     X = rd.Next(-500, 500),
                     Y = rd.Next(-500, 500)

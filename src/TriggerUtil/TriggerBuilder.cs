@@ -1,4 +1,6 @@
-﻿namespace TriggerUtil
+﻿using System.Linq.Expressions;
+
+namespace TriggerUtil
 {
     /// <summary>
     /// TiggerBuilder
@@ -141,9 +143,6 @@
             return str;
         }
 
-        private List<string> eventExpressions = new List<string>();
-        private List<string> actionsExpressions = new List<string>();
-
 
         /// <summary>
         /// 触发条件
@@ -153,7 +152,6 @@
         public TriggerBuilder When(Action<EventBuilder> expression)
         {
             expression(_eventBuilder);
-            eventExpressions.Add(expression.ToString());
             return this;
         }
 
@@ -165,7 +163,6 @@
         public TriggerBuilder Then(Action<ActionBuilder> expression)
         {
             expression(_actionBuilder);
-            actionsExpressions.Add(expression.ToString());
             return this;
         }
 
