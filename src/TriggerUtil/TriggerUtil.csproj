@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

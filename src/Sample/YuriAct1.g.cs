@@ -25,12 +25,15 @@ namespace Sample
 
         internal enum Eva
         {
+            EVA_MissionAccomplished,
             EVA_BattleControlTerminated,
             EVA_PrimaryObjectiveAchieved,
             EVA_EstablishBattlefieldControl,
             EVA_IncomingTransmission,
             EVA_ReinforcementsHaveArrived,
-            EVA_BattleControlOnline
+            EVA_BattleControlOnline,
+            EVA_BattlefieldControlOnline,
+            EVA_MissionFailed
         }
     }
 }

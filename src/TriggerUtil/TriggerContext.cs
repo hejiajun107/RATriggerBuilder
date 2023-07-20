@@ -1,11 +1,15 @@
 ﻿using IniParser;
 using IniParser.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TriggerUtil.Chart;
 
 namespace TriggerUtil
 {
@@ -59,10 +63,8 @@ namespace TriggerUtil
                 Directory.CreateDirectory(fileinfo.Directory.FullName);
             }
      
-            using (StreamWriter sw = new StreamWriter(path, false))
-            {
-                parser.WriteData(sw, data);
-            }
+            using var sw = new StreamWriter(path, false);
+            parser.WriteData(sw, data);
 
             return true;
         }
@@ -94,6 +96,58 @@ namespace TriggerUtil
             var map = parser.ReadFile(path);
             map.Merge(data);
             parser.WriteFile(path, map);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 生成预览图
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool Preview(string path)
+        {
+
+            var vm = new ChartVM();
+            var rd = new Random();
+            foreach(var trigger in triggers) 
+            {
+                vm.Nodes.Add(new Node()
+                {
+                    Id = trigger.UniqueId,
+                    Name = trigger.TriggerName ?? trigger.UniqueId,
+                    Value = trigger.Description,
+                    Category = 0,
+                    X = rd.Next(-500, 500),
+                    Y = rd.Next(-500, 500)
+                }) ;
+
+                foreach(var node in trigger.NextNodes)
+                {
+                    vm.Links.Add(new Link()
+                    {
+                        Source = trigger.UniqueId,
+                        Target = node
+                    });
+                }
+            }
+
+            vm.Categories.Add(new Category()
+            {
+                Name = "触发",
+            });
+
+            var template = this.GetType().Assembly.GetManifestResourceStream("TriggerUtil.index.html");
+            using StreamReader sr = new StreamReader(template);
+            var html = sr.ReadToEnd();
+
+            var setting = new JsonSerializerSettings();
+            setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            string json = JsonConvert.SerializeObject(vm, setting);
+            html = html.Replace("{{data}}", json);
+
+            using var sw = new StreamWriter(path, false);
+            sw.Write(html);
 
             return true;
         }

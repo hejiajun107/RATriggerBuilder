@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+  </head>
+
+<body>
+    <style>
+        #main{
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+
+    <div id="main"></div>
+
+
+
+    <script>
+    var myChart = echarts.init(document.getElementById('main'));
+    var graph = {{data}};
+
+    myChart.showLoading();
+       // $.get('./preview.json', function (graph) {
+          myChart.hideLoading();
+          graph.nodes.forEach(function (node) {
+            node.label = {
+              show: true
+            };
+            // node.x = myChart.getWidth() / 2;
+            // node.y = myChart.getWidth() / 2;
+          });
+          option = {
+            title: {
+              text: '触发关系图',
+              subtext: 'Default layout',
+              top: 'bottom',
+              left: 'right'
+            },
+            tooltip: {},
+            legend: [
+              {
+                // selectedMode: 'single',
+                data: graph.categories.map(function (a) {
+                  return a.name;
+                })
+              }
+            ],
+            animationDuration: 1500,
+            animationEasingUpdate: 'quinticInOut',
+            series: [
+              {
+                name: '触发',
+                type: 'graph',
+                layout: 'force',
+                force: {
+                  // initLayout: 'circular',
+                  // gravity: 0
+                  repulsion: 100,
+                  // edgeLength: 5
+                },
+                data: graph.nodes,
+                links: graph.links,
+                categories: graph.categories,
+                roam: true,
+                label: {
+                  position: 'right',
+                  formatter: '{b}'
+                },
+                lineStyle: {
+                  color: 'source',
+                  curveness: 0.3
+                },
+                emphasis: {
+                  focus: 'adjacency',
+                  lineStyle: {
+                    width: 10
+                  }
+                },
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                edgeLabel: {
+                  fontSize: 20
+                },
+              }
+            ]
+          };
+          myChart.setOption(option);
+        //});
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

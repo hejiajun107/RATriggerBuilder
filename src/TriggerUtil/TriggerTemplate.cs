@@ -53,6 +53,22 @@ namespace TriggerUtil
 
             return Context.Append(path);
         }
+
+        /// <summary>
+        /// 生成预览图
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool Preview(string path)
+        {
+            if (!_hasBuilt)
+            {
+                _hasBuilt = true;
+                Process();
+            }
+
+            return Context.Preview(path);
+        }
     }
 
 
