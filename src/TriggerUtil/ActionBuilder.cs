@@ -944,7 +944,52 @@ namespace TriggerUtil
             return this;
         }
 
+        /// <summary>
+        /// AI触发开始...
+        /// 启动特定所属方的AI触发。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public ActionBuilder StartAi(Enum house)
+        {
+            return StartAi(house.GetHashCode());
+        }
 
+
+        /// <summary>
+        /// AI触发开始...
+        /// 启动特定所属方的AI触发。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public ActionBuilder StartAi(int house)
+        {
+            Actions.Add($"74,0,{house},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// AI触发停止...
+        /// 停止特定所属方的AI触发。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public ActionBuilder EndAi(Enum house)
+        {
+            return EndAi(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// AI触发停止...
+        /// 停止特定所属方的AI触发。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public ActionBuilder EndAi(int house)
+        {
+            Actions.Add($"75,0,{house},0,0,0,0,A");
+            return this;
+        }
 
 
 
@@ -1041,6 +1086,18 @@ namespace TriggerUtil
         public ActionBuilder Cheer(Enum owner)
         {
             return Cheer(owner.GetHashCode());
+        }
+
+        /// <summary>
+        /// 居中视野到特定路径点...
+        /// 立即将指挥视野移动到特定的路径点。
+        /// </summary>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public ActionBuilder CenterViewToWayPoint(int wayPoint)
+        {
+            Actions.Add($"112,0,0,0,0,0,0,{wayPoint.To26()}");
+            return this;
         }
 
         /// <summary>
