@@ -881,7 +881,7 @@ namespace TriggerUtil
         /// <returns></returns>
         public EventBuilder EnterOrFlyOver(Enum house)
         {
-            return EnterOrFlyOver(house);
+            return EnterOrFlyOver(house.GetHashCode());
         }
 
         /// <summary>

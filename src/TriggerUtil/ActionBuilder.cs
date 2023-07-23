@@ -950,6 +950,41 @@ namespace TriggerUtil
 
 
         /// <summary>
+        /// 唤醒...
+        /// 唤醒「关联」的睡眠(Sleep)或无害(Harmless)的单位，让他们进入固守(Guard)模式。
+        /// </summary>
+        /// <returns></returns>
+        public ActionBuilder WakeTeam()
+        {
+            Actions.Add($"81,0,0,0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 唤醒所有睡眠的单位...
+        /// 唤醒所有「非」触发所属方 的睡眠(Sleep)单位，让他们进入固守(Guard)模式。
+        /// </summary>
+        /// <returns></returns>
+        public ActionBuilder WakeAllSleep()
+        {
+            Actions.Add($"82,0,0,0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
+        /// 83 唤醒所有无害的单位
+        /// 唤醒所有 触发所属方 的无害(Harmless)单位，让他们进入固守(Guard)模式。
+        /// </summary>
+        /// <returns></returns>
+        public ActionBuilder WakeAllHarmless()
+        {
+            Actions.Add($"83,0,0,0,0,0,0,A");
+            return this;
+        }
+
+
+        /// <summary>
         /// 援军(作战小队)[在路径点]...
         /// 在特定的路径点创建援军作战小队。小队成员会被直接刷出，刷兵路径点为行为设置中的路径点。
         /// </summary>
@@ -961,6 +996,9 @@ namespace TriggerUtil
             Actions.Add($"80,1,{teamType},0,0,0,0,{wayPoint.To26()}");
             return this;
         }
+
+
+
 
 
 
