@@ -110,9 +110,15 @@ namespace TriggerUtil
 
             var vm = new ChartVM();
             var rd = new Random();
-            foreach(var trigger in triggers) 
+
+            vm.Categories.Add(new Category()
             {
-                vm.Nodes.Add(new Node()
+                Name = "默认",
+            });
+
+            foreach (var trigger in triggers) 
+            {
+                var tnode = new Node()
                 {
                     Id = trigger.UniqueId,
                     Name = (trigger.Description ?? "") + "[" + (trigger.TriggerName ?? trigger.UniqueId) + "]",
@@ -120,7 +126,27 @@ namespace TriggerUtil
                     Category = 0,
                     X = rd.Next(-500, 500),
                     Y = rd.Next(-500, 500)
-                }) ;
+                };
+
+                if (!string.IsNullOrEmpty(trigger.TriggerGroup.Name))
+                {
+                    var idx = vm.Categories.Select(x => x.Name).ToList().IndexOf(trigger.TriggerGroup.Name);
+                    if (idx > -1)
+                    {
+                        tnode.Category = idx;
+                    }
+                    else
+                    {
+                        idx = vm.Categories.Count();
+                        tnode.Category = idx;
+                        vm.Categories.Add(new Category()
+                        {
+                            Name = trigger.TriggerGroup.Name,
+                        });
+                    }
+                }
+
+                vm.Nodes.Add(tnode) ;
 
                 foreach(var node in trigger.NextNodes)
                 {
@@ -131,11 +157,6 @@ namespace TriggerUtil
                     });
                 }
             }
-
-            vm.Categories.Add(new Category()
-            {
-                Name = "触发",
-            });
 
             var template = this.GetType().Assembly.GetManifestResourceStream("TriggerUtil.index.html");
             using StreamReader sr = new StreamReader(template);

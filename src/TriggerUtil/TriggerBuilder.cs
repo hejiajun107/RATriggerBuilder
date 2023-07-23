@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace TriggerUtil
 {
@@ -29,6 +30,8 @@ namespace TriggerUtil
 
         private ActionBuilder _actionBuilder;
         private EventBuilder _eventBuilder;
+
+        public TriggerGroup TriggerGroup { get; private set; } = new TriggerGroup();
 
         public List<string> NextNodes { get; private set; } = new List<string>();
 
@@ -74,6 +77,16 @@ namespace TriggerUtil
         /// 触发所属方
         /// </summary>
         private string? _owner;
+
+        public TriggerBuilder SetGroup(string groupName)
+        {
+            TriggerGroup = new TriggerGroup()
+            {
+                Name = groupName,
+                Setted = true
+            };
+            return this;
+        }
 
         /// <summary>
         /// 设置触发的名称
@@ -199,6 +212,10 @@ namespace TriggerUtil
         public TriggerBuilder Contain(TriggerBuilder nextTrigger)
         {
             nextTrigger.Disabled = true;
+            if (!nextTrigger.TriggerGroup.Setted)
+            {
+                nextTrigger.TriggerGroup = TriggerGroup;
+            }
             _actionBuilder.Enable(nextTrigger.UniqueId);
             return this;
         }
@@ -211,6 +228,10 @@ namespace TriggerUtil
         public TriggerBuilder Contain(Action<TriggerBuilder> next)
         {
             var trigger = _context.CreateTrigger();
+            if (!trigger.TriggerGroup.Setted)
+            {
+                trigger.TriggerGroup = TriggerGroup;
+            }
             trigger.Disabled = true;
             next(trigger);
             _actionBuilder.Enable(trigger.UniqueId);
@@ -225,6 +246,10 @@ namespace TriggerUtil
         public TriggerBuilder Next(TriggerBuilder nextTrigger)
         {
             nextTrigger.Disabled = true;
+            if (!nextTrigger.TriggerGroup.Setted)
+            {
+                nextTrigger.TriggerGroup = TriggerGroup;
+            }
             _actionBuilder.Enable(nextTrigger.UniqueId);
             return nextTrigger;
         }
@@ -238,6 +263,10 @@ namespace TriggerUtil
         {
             var trigger = _context.CreateTrigger();
             trigger.Disabled = true;
+            if (!trigger.TriggerGroup.Setted)
+            {
+                trigger.TriggerGroup = TriggerGroup;
+            }
             next(trigger);
             _actionBuilder.Enable(trigger.UniqueId);
             return trigger;
