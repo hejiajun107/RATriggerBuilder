@@ -200,8 +200,8 @@ namespace TriggerUtil
             if (!File.Exists(evaPath))
                 throw new Exception($"cannont find {evaPath}");
 
-            if (!File.Exists(soundPath))
-                throw new Exception($"cannont find {soundPath}");
+            //if (!File.Exists(soundPath))
+            //    throw new Exception($"cannont find {soundPath}");
 
             IniData rulesdata = new IniData();
             rulesdata = GetIniData(rulesdata, iniDir, rulesPath,0);
@@ -217,11 +217,6 @@ namespace TriggerUtil
             var evadata = new IniData();
             evadata = GetIniData(rulesdata, iniDir, evaPath, 0);
             var evas = evadata.Sections["DialogList"].Select(x => x.Value).Distinct().ToList();
-
-
-            var sounddata = new IniData();
-            sounddata = GetIniData(sounddata, iniDir, soundPath, 0);
-            var sounds = evadata.Sections["SoundList"].Select(x => x.Value).Distinct().ToList();
 
 
             var sb = new StringBuilder();
@@ -275,10 +270,6 @@ namespace TriggerUtil
                             {GetEnumCsharpCode(evas)}
                         }}
 
-                        internal enum Sound
-                        {{
-                            {GetEnumCsharpCode(sounds)}
-                        }}
                     }}
                 }}
             ");
