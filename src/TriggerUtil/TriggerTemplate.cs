@@ -69,6 +69,18 @@ namespace TriggerUtil
 
             return Context.Preview(path);
         }
+
+        /// <summary>
+        /// 读取ini生成enum
+        /// </summary>
+        /// <param name="dir">ini文件目录</param>
+        /// <param name="dest">生成的代码</param>
+        /// <param name="suffix">后缀</param>
+        /// <returns></returns>
+        public bool LoadFromIni(string dir,string dest, string suffix = "md")
+        {
+            return Context.LoadFromIni(dir, dest, this.GetType(), suffix);
+        }
     }
 
 

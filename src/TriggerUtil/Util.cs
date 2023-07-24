@@ -22,5 +22,15 @@ namespace TriggerUtil
             }
             return s;
         }
+
+        public static StreamReader ToStreamReader(this string input)
+        {
+            using MemoryStream stream = new MemoryStream();
+            using StreamWriter writer = new StreamWriter(stream);
+            writer.Write(input);
+            writer.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+            return new StreamReader(stream);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using IniParser;
 using IniParser.Model;
+using IniParser.Parser;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -8,8 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TriggerUtil.Chart;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TriggerUtil
 {
@@ -172,5 +175,205 @@ namespace TriggerUtil
 
             return true;
         }
+
+        /// <summary>
+        /// 从ini中生成模板数据
+        /// </summary>
+        /// <param name="iniDir">ini路径</param>
+        /// <param name="dest">生成的代码文件</param>
+        /// <param name="suffix">ini后缀</param>
+        /// <returns></returns>
+        public bool LoadFromIni(string iniDir,string dest, Type type, string suffix ="md")
+        {
+            var rulesPath = Path.Combine(iniDir, $"rules{suffix}.ini");
+            //var artPath = Path.Combine(dir, $"art{suffix}.ini");
+            var evaPath = Path.Combine(iniDir, $"eva{suffix}.ini");
+            var soundPath = Path.Combine(iniDir, $"sound{suffix}.ini");
+
+            if (!File.Exists(rulesPath))
+                throw new Exception($"cannont find {rulesPath}");
+
+            //if (!File.Exists(artPath))
+            //    throw new Exception($"cannont find {artPath}");
+
+
+            if (!File.Exists(evaPath))
+                throw new Exception($"cannont find {evaPath}");
+
+            if (!File.Exists(soundPath))
+                throw new Exception($"cannont find {soundPath}");
+
+            IniData rulesdata = new IniData();
+            rulesdata = GetIniData(rulesdata, iniDir, rulesPath,0);
+            var anims = rulesdata.Sections["Animations"].Select(x => x.Value).Distinct().ToList();
+            var vehicles = rulesdata.Sections["VehicleTypes"].Select(x => x.Value).Distinct().ToList();
+            var buildings = rulesdata.Sections["BuildingTypes"].Select(x => x.Value).Distinct().ToList();
+            var infantries = rulesdata.Sections["InfantryTypes"].Select(x => x.Value).Distinct().ToList();
+            var aircrafts = rulesdata.Sections["AircraftTypes"].Select(x => x.Value).Distinct().ToList();
+            var superWeapons = rulesdata.Sections["SuperWeaponTypes"].Select(x => x.Value).Distinct().ToList();
+            var weapons = rulesdata.Sections["WeaponTypes"].Select(x => x.Value).Distinct().ToList();
+            var warheads = rulesdata.Sections["Warheads"].Select(x => x.Value).Distinct().ToList();
+
+            var evadata = new IniData();
+            evadata = GetIniData(rulesdata, iniDir, evaPath, 0);
+            var evas = evadata.Sections["DialogList"].Select(x => x.Value).Distinct().ToList();
+
+
+            var sounddata = new IniData();
+            sounddata = GetIniData(sounddata, iniDir, soundPath, 0);
+            var sounds = evadata.Sections["SoundList"].Select(x => x.Value).Distinct().ToList();
+
+
+            var sb = new StringBuilder();
+            sb.Append($@"
+                namespace {type.Namespace}
+                {{
+                    public partial class {type.Name} 
+                    {{
+                        internal enum Animations
+                        {{
+                            {GetEnumCsharpCode(anims)}
+                        }}
+
+                        internal enum VehicleTypes
+                        {{
+                            {GetEnumCsharpCode(vehicles)}
+                        }}
+
+                        internal enum BuildingTypes
+                        {{
+                            {GetEnumCsharpCode(buildings)}
+                        }}
+
+                        internal enum InfantryTypes
+                        {{
+                            {GetEnumCsharpCode(infantries)}
+                        }}
+
+                        internal enum AircraftTypes
+                        {{
+                            {GetEnumCsharpCode(aircrafts)}
+                        }}
+
+                        internal enum SuperWeaponTypes
+                        {{
+                            {GetEnumCsharpCode(superWeapons)}
+                        }}
+
+                        internal enum WeaponTypes
+                        {{
+                            {GetEnumCsharpCode(weapons)}
+                        }}
+
+                        internal enum Warheads
+                        {{
+                            {GetEnumCsharpCode(warheads)}
+                        }}
+
+                        internal enum Eva
+                        {{
+                            {GetEnumCsharpCode(evas)}
+                        }}
+
+                        internal enum Sound
+                        {{
+                            {GetEnumCsharpCode(sounds)}
+                        }}
+                    }}
+                }}
+            ");
+
+            using (StreamWriter sw = new StreamWriter(dest, false))
+            {
+                sw.Write(sb.ToString());
+            }
+
+            return true;
+        }
+
+        private IniData GetIniData(IniData data,string dir,string path,int idx)
+        {
+
+            using StreamReader iniReader = new StreamReader(path);
+            var str = iniReader.ReadToEnd();
+
+            str = ReplaceAutoKey(str, idx, out idx);
+
+
+            var parser = new IniDataParser();
+            parser.Configuration.AllowDuplicateKeys = true;
+            parser.Configuration.AllowDuplicateSections = true;
+            var pdata = parser.Parse(str);
+            data.Merge(pdata);
+
+            if (pdata.Sections["#include"] is not null)
+            {
+                foreach(var kv in pdata.Sections["#include"])
+                {
+                    GetIniData(data, dir, Path.Combine(dir,kv.Value),idx);
+                }
+            }
+
+            if (pdata.Sections["$include"] is not null)
+            {
+                foreach (var kv in pdata.Sections["#include"])
+                {
+                    GetIniData(data, dir, Path.Combine(dir,kv.Value), idx);
+                }
+            }
+
+
+            return data;
+        }
+
+        private string ReplaceAutoKey(string str,int startIndex,out int endIdx)
+        {
+            var idx = startIndex;
+            var regex = new Regex(@"\+\=");
+            str = regex.Replace(str, match =>
+            {
+                return "AUTO" + idx++.ToString().PadLeft(5, '0') + "=";
+            });
+            endIdx = idx;
+
+            string pattern = @"^\s*;\s*$"; 
+            str = Regex.Replace(str, pattern, "");
+
+            //wwsb
+            str = str.Replace(@"// PCG;", ";");
+            //wwsb注释没换行
+            str = str.Replace(";", "\n;");
+            return str;
+        }
+
+        private string GetEnumCsharpCode(List<string> li)
+        {
+            if(li is null)
+                return "";
+
+            var sb = new StringBuilder();
+            for (var i = 0; i < li.Count; i++)
+            {
+                var item = li[i];
+
+                var final = item;
+
+                if(item.Contains("-"))
+                {
+                    final = final.Replace("-", "_");
+                }
+                if (!Regex.IsMatch(item, @"^[a-zA-Z]"))
+                {
+                    final = "_" + final;
+                }
+
+                final = final.Replace(" ", "");
+
+                sb.Append($"{final}={i},{(final==item?"":$"//notice was {item}")}\n");
+            }
+            return sb.ToString();
+        }
+
+
     }
 }
