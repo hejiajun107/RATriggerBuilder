@@ -200,8 +200,8 @@ namespace TriggerUtil
             if (!File.Exists(evaPath))
                 throw new Exception($"cannont find {evaPath}");
 
-            //if (!File.Exists(soundPath))
-            //    throw new Exception($"cannont find {soundPath}");
+            if (!File.Exists(soundPath))
+                throw new Exception($"cannont find {soundPath}");
 
             IniData rulesdata = new IniData();
             rulesdata = GetIniData(rulesdata, iniDir, rulesPath,0);
@@ -215,9 +215,12 @@ namespace TriggerUtil
             var warheads = rulesdata.Sections["Warheads"].Select(x => x.Value).Distinct().ToList();
 
             var evadata = new IniData();
-            evadata = GetIniData(rulesdata, iniDir, evaPath, 0);
+            evadata = GetIniData(evadata, iniDir, evaPath, 0);
             var evas = evadata.Sections["DialogList"].Select(x => x.Value).Distinct().ToList();
 
+            var soundData = new IniData();
+            soundData = GetIniData(soundData, iniDir, soundPath, 0);
+            var sounds = soundData.Sections["SoundList"].Select(x => x.Value).Distinct().ToList();
 
             var sb = new StringBuilder();
             sb.Append($@"
@@ -270,6 +273,11 @@ namespace TriggerUtil
                             {GetEnumCsharpCode(evas)}
                         }}
 
+                        internal enum Sounds
+                        {{
+                            {GetEnumCsharpCode(sounds)}
+                        }}
+
                     }}
                 }}
             ");
@@ -294,6 +302,7 @@ namespace TriggerUtil
             var parser = new IniDataParser();
             parser.Configuration.AllowDuplicateKeys = true;
             parser.Configuration.AllowDuplicateSections = true;
+            parser.Configuration.SkipInvalidLines = true;
             var pdata = parser.Parse(str);
             data.Merge(pdata);
 
