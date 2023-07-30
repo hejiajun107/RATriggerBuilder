@@ -25,6 +25,8 @@ namespace Sample
 
         internal enum Eva
         {
+            //如果注册表中不符合变量名的命名规则（如出现不允许的字符，或者以数字符号靠头等）可以写这个Attribute，具体可参考自动生成的代码
+            [EnumKey(Name = "EVA_MissionAccomplished")]
             EVA_MissionAccomplished,
             EVA_BattleControlTerminated,
             EVA_PrimaryObjectiveAchieved,

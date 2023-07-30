@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TriggerUtil.AI;
 using TriggerUtil.Chart;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -19,12 +20,20 @@ namespace TriggerUtil
     public class TriggerContext
     {
         private List<TriggerBuilder> triggers = new List<TriggerBuilder>();
+        private List<TeamBuilder> teams = new List<TeamBuilder>();
 
         public TriggerBuilder CreateTrigger()
         {
             var trigger = new TriggerBuilder(this);
             triggers.Add(trigger);
             return trigger;
+        }
+
+        public TeamBuilder CreateTeam()
+        {
+            var team = new TeamBuilder(this);
+            teams.Add(team);
+            return team;
         }
 
         /// <summary>
@@ -224,6 +233,7 @@ namespace TriggerUtil
 
             var sb = new StringBuilder();
             sb.Append($@"
+                using TriggerUtil;
                 namespace {type.Namespace}
                 {{
                     public partial class {type.Name} 
@@ -369,7 +379,7 @@ namespace TriggerUtil
 
                 final = final.Replace(" ", "");
 
-                sb.Append($"{final}={i},{(final==item?"":$"//notice was {item}")}\n");
+                sb.Append($"[EnumKey(\"Name={item}\")]{final}={i},{(final==item?"":$"//notice was {item}")}\n");
             }
             return sb.ToString();
         }
