@@ -12,7 +12,7 @@ namespace TriggerUtil
     public class TriggerBuilder
     {
 
-        public TriggerBuilder(TriggerContext context) 
+        internal TriggerBuilder(TriggerContext context) 
         {
             _context = context;
             var id = IdGenerator.NextId();

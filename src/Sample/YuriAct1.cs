@@ -11,6 +11,10 @@ namespace Sample
     {
         protected override void Process()
         {
+            var team = Context.CreateTeam()
+                    .WithScript(x => x.MoveToWayPoint(1).MoveToWayPoint(2).MoveToWayPoint(3).Unload(UnloadResult.PassengerOnly).AttackNearestTarget(AttackTargetType.Anything))
+                    .WithTaskForce(x => x.Add("SREF", 2).Add("MTNK", 2).Add("LCRF",1));
+
             Context.CreateTrigger().Name("Start").SetGroup("开场").SetDescription("只是个注释").Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisablePlayerControl().DisableSelf())
                .Next(x => x.Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisableSelf().PlayEva(Eva.EVA_EstablishBattlefieldControl.GetKey())))
                .Next(x => x.Owner(Country.YuriCountry).When(e => e.TimeElapse(5)).Then(a => a.TriggerText("Mission:yr01umd1").DisableSelf()))

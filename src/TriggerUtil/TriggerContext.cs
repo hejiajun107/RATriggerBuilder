@@ -7,13 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TriggerUtil.AI;
 using TriggerUtil.Chart;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TriggerUtil
 {
@@ -21,6 +18,9 @@ namespace TriggerUtil
     {
         private List<TriggerBuilder> triggers = new List<TriggerBuilder>();
         private List<TeamBuilder> teams = new List<TeamBuilder>();
+        private List<TaskForceBuilder> forces = new List<TaskForceBuilder>();
+        private List<ScriptBuilder> scripts = new List<ScriptBuilder>();
+
 
         public TriggerBuilder CreateTrigger()
         {
@@ -34,6 +34,20 @@ namespace TriggerUtil
             var team = new TeamBuilder(this);
             teams.Add(team);
             return team;
+        }
+
+        public TaskForceBuilder CreateTaskForce()
+        {
+            var force = new TaskForceBuilder(this);
+            forces.Add(force);
+            return force;
+        }
+
+        public ScriptBuilder CreateScript()
+        {
+            var script = new ScriptBuilder(this);
+            scripts.Add(script);
+            return script;
         }
 
         /// <summary>

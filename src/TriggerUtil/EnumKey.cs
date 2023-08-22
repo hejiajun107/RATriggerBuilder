@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TriggerUtil
 {
-    public class EnumKeyAttribute:Attribute
+    public class EnumKeyAttribute : Attribute
     {
         public string Name { get; set; }
     }

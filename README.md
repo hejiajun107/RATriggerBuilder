@@ -24,3 +24,4 @@
 
 ### Credits
 All annotions is from FA2SP
+Annotions of AI is from AI的艺♂术(2019年4月版AI教程) by Madman_M

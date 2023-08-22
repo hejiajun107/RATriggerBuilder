@@ -14,17 +14,30 @@ namespace TriggerUtil
         {
             TriggerCounter++;
             return ("03A" + TriggerCounter.ToString().PadLeft(5, '0'), ("03B" + TriggerCounter.ToString().PadLeft(5, '0')));
-            //switch (idType)
-            //{
-            //    case IdType.Trigger:
-            //        return "01" + TriggerCounter++.ToString().PadLeft(6, '0');
-            //    case IdType.Event:
-            //        return "02" + EventCounter++.ToString().PadLeft(6, '0');
-            //    case IdType.Action:
-            //        return "03" + ActionCounter++.ToString().PadLeft(6, '0');
-            //    default:
-            //        throw new Exception();
-            //}
+        }
+
+        private static int TeamCounter = 0;
+
+        public static (string id,string name) NextTeam()
+        {
+            TeamCounter++;
+            return ("A" + TeamCounter.ToString().PadLeft(5, '0'), ("03A" + TeamCounter.ToString().PadLeft(5, '0') + "-G"));
+        }
+
+        private static int TaskForceCounter = 0;
+
+        public static (string id, string name) NextTaskForce()
+        {
+            TaskForceCounter++;
+            return ("A" + TaskForceCounter.ToString().PadLeft(5, '0'), ("03B" + TaskForceCounter.ToString().PadLeft(5, '0') + "-G"));
+        }
+
+        private static int ScriptCounter = 0;
+
+        public static (string id, string name) NextScript()
+        {
+            ScriptCounter++;
+            return ("A" + ScriptCounter.ToString().PadLeft(5, '0'), ("03C" + ScriptCounter.ToString().PadLeft(5, '0') + "-G"));
         }
 
         private static HashSet<int> fiexedNums = new HashSet<int>();

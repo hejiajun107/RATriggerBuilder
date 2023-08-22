@@ -10,11 +10,67 @@ namespace TriggerUtil.AI
     {
         private TriggerContext _context;
 
-        public TeamBuilder(TriggerContext context) 
+        internal TeamBuilder(TriggerContext context) 
         {
             _context = context;
+            var tuple = IdGenerator.NextTeam();
+            No = tuple.id;
+            UniqueId = tuple.name;
         }
 
+        /// <summary>
+        /// 注册序号
+        /// </summary>
+        public string No { get; private set; }
+        /// <summary>
+        /// 注册名
+        /// </summary>
+        public string UniqueId { get; private set; }
+
+        public string TaskForceKey { get; private set; }
+
+        public string ScriptKey { get; private set; }
+
+
+        public TeamBuilder WithScript(ScriptBuilder scriptBuilder)
+        {
+            ScriptKey = scriptBuilder.UniqueId;
+            return this;
+        }
+
+        public TeamBuilder WithScript(Action<ScriptBuilder> scriptExpression)
+        {
+            var script = _context.CreateScript();
+            ScriptKey = script.UniqueId;
+            scriptExpression(script);
+            return this;
+        }
+
+        public TeamBuilder WithScript(string scriptKey)
+        {
+            ScriptKey = scriptKey;
+            return this;
+        }
+
+        public TeamBuilder WithTaskForce(TaskForceBuilder taskForceBuilder) 
+        {
+            TaskForceKey = taskForceBuilder.UniqueId;
+            return this;
+        }
+        public TeamBuilder WithTaskForce(Action<TaskForceBuilder> taskForceExpression)
+        {
+            var taskForce = _context.CreateTaskForce();
+            TaskForceKey = taskForce.UniqueId;
+            taskForceExpression(taskForce);
+            return this;
+        }
+
+        public TeamBuilder WithTaskForce(string taskForceKey)
+        {
+            TaskForceKey = taskForceKey;
+            return this;
+        }
 
     }
+
 }
