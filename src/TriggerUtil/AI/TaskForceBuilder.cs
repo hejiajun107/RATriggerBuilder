@@ -28,6 +28,15 @@ namespace TriggerUtil.AI
         /// 注册名
         /// </summary>
         public string UniqueId { get; private set; }
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// 注释
+        /// </summary>
+        public string Description { get;private set; }
 
         public List<(string,int)> Forces { get;private set; }
 
@@ -37,6 +46,19 @@ namespace TriggerUtil.AI
             return this;
         }
 
-        
+        public TaskForceBuilder SetName(string name)
+        {
+            Name = name;
+            return this;
+        }
+
+        public TaskForceBuilder SetDescription(string desc)
+        {
+            Description = desc;
+            return this;
+        }
+
+
+
     }
 }

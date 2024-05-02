@@ -16,7 +16,10 @@ namespace TriggerUtil.AI
             var tuple = IdGenerator.NextTeam();
             No = tuple.id;
             UniqueId = tuple.name;
+            TeamOption = new TeamOption();
         }
+
+        public TeamOption TeamOption { get; private set; }
 
         /// <summary>
         /// 注册序号
@@ -31,6 +34,12 @@ namespace TriggerUtil.AI
 
         public string ScriptKey { get; private set; }
 
+        
+        public TeamBuilder WithOptions(Action<TeamOption> opt)
+        {
+            opt(TeamOption);
+            return this;
+        }
 
         public TeamBuilder WithScript(ScriptBuilder scriptBuilder)
         {

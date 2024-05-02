@@ -19,6 +19,11 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
         /// 注册序号
         /// </summary>
         public string No { get; private set; }
@@ -28,6 +33,15 @@ namespace TriggerUtil.AI
         public string UniqueId { get; private set; }
 
         public List<(int, object)> Scripts = new List<(int, object)>();
+
+        /// <summary>
+        /// 设置名称
+        /// </summary>
+        /// <param name="name"></param>
+        public void WithName(string name)
+        {
+            Name = name;
+        }
 
         /// <summary>
         /// 攻击

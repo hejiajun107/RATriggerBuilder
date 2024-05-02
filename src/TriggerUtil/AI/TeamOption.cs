@@ -61,6 +61,11 @@ namespace TriggerUtil.AI
 
         public bool UseTransportOrigin { get; set; } = false;
 
+        /// <summary>
+        /// 运输机路径点
+        /// </summary>
+        public int TransportWaypoint { get; set; } 
+
         public bool Whiner { get; set; } = false;
         /// <summary>
         /// 完成任务后解散。
@@ -122,6 +127,13 @@ namespace TriggerUtil.AI
         /// 是否只针对敌对方。
         /// </summary>
         public bool OnlyTargetHouseEnemy { get; set; } = false;
+
+
+
+        /// <summary>
+        /// 路径点 16进制!!!
+        /// </summary>
+        public int? WayPoint { get; set; }
 
         //public string Script { get; set; }
 

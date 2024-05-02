@@ -10,10 +10,16 @@ namespace TriggerUtil
     {
         private static int TriggerCounter = 0;
 
+        public static Func<int, (string, string)> NextIdAction = count => ("03A" + TriggerCounter.ToString().PadLeft(5, '0'), ("03B" + TriggerCounter.ToString().PadLeft(5, '0')));
+        public static Func<int, (string, string)> NextTeamAction = count => ("A" + TeamCounter.ToString().PadLeft(5, '0'), ("03A" + TeamCounter.ToString().PadLeft(5, '0') + "-G"));
+        public static Func<int, (string, string)> NextTaskForceAction = count => ("A" + TaskForceCounter.ToString().PadLeft(5, '0'), ("03B" + TaskForceCounter.ToString().PadLeft(5, '0') + "-G"));
+        public static Func<int, (string, string)> NextScriptAction = count => ("A" + ScriptCounter.ToString().PadLeft(5, '0'), ("03C" + ScriptCounter.ToString().PadLeft(5, '0') + "-G"));
+
+
         public static (string trigger,string tag) NextId()
         {
             TriggerCounter++;
-            return ("03A" + TriggerCounter.ToString().PadLeft(5, '0'), ("03B" + TriggerCounter.ToString().PadLeft(5, '0')));
+            return NextIdAction(TriggerCounter);
         }
 
         private static int TeamCounter = 0;
@@ -21,7 +27,7 @@ namespace TriggerUtil
         public static (string id,string name) NextTeam()
         {
             TeamCounter++;
-            return ("A" + TeamCounter.ToString().PadLeft(5, '0'), ("03A" + TeamCounter.ToString().PadLeft(5, '0') + "-G"));
+            return NextTeamAction(TeamCounter);
         }
 
         private static int TaskForceCounter = 0;
@@ -29,7 +35,7 @@ namespace TriggerUtil
         public static (string id, string name) NextTaskForce()
         {
             TaskForceCounter++;
-            return ("A" + TaskForceCounter.ToString().PadLeft(5, '0'), ("03B" + TaskForceCounter.ToString().PadLeft(5, '0') + "-G"));
+            return NextTaskForceAction(TaskForceCounter);
         }
 
         private static int ScriptCounter = 0;
@@ -37,7 +43,7 @@ namespace TriggerUtil
         public static (string id, string name) NextScript()
         {
             ScriptCounter++;
-            return ("A" + ScriptCounter.ToString().PadLeft(5, '0'), ("03C" + ScriptCounter.ToString().PadLeft(5, '0') + "-G"));
+            return NextScriptAction(ScriptCounter);
         }
 
         private static HashSet<int> fiexedNums = new HashSet<int>();

@@ -22,6 +22,8 @@ namespace TriggerUtil
 
         public List<string> Actions { get; private set; } = new List<string>();
 
+        public List<string> TeamNodes { get;private set; } = new List<string>();
+
         #region 结果
         /// <summary>
         /// 空行为，没作用
@@ -158,6 +160,7 @@ namespace TriggerUtil
         public ActionBuilder Reinforcements(string team)
         {
             Actions.Add($"7,1,{team},0,0,0,0,A");
+            TeamNodes.Add(team);
             return this;
         }
 

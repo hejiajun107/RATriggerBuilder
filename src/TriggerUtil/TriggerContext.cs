@@ -73,13 +73,7 @@ namespace TriggerUtil
             var fileinfo = new FileInfo(path);
 
             IniData data = new IniData();
-            foreach(var trigger in triggers)
-            {
-                data["Tags"][trigger.UniqueId] = trigger.BuildTagString();
-                data["Triggers"][trigger.UniqueId] = trigger.BuildTriggerString();
-                data["Events"][trigger.UniqueId] = trigger.BuildEventsString();
-                data["Actions"][trigger.UniqueId] = trigger.BuildActionString();
-            }
+            SetIniData(data);
 
             var parser = new FileIniDataParser();
 
@@ -109,13 +103,7 @@ namespace TriggerUtil
                 throw new ArgumentException("File Not Exsist");
 
             IniData data = new IniData();
-            foreach (var trigger in triggers)
-            {
-                data["Tags"][trigger.Tag] = trigger.BuildTagString();
-                data["Triggers"][trigger.UniqueId] = trigger.BuildTriggerString();
-                data["Events"][trigger.UniqueId] = trigger.BuildEventsString();
-                data["Actions"][trigger.UniqueId] = trigger.BuildActionString();
-            }
+            SetIniData(data);
 
             var parser = new FileIniDataParser();
 
@@ -124,6 +112,87 @@ namespace TriggerUtil
             parser.WriteFile(path, map);
 
             return true;
+        }
+
+        private void SetIniData(IniData data)
+        {
+            foreach (var trigger in triggers)
+            {
+                data["Tags"][trigger.Tag] = trigger.BuildTagString();
+                data["Triggers"][trigger.UniqueId] = trigger.BuildTriggerString();
+                data["Events"][trigger.UniqueId] = trigger.BuildEventsString();
+                data["Actions"][trigger.UniqueId] = trigger.BuildActionString();
+            }
+
+            foreach(var taskforce in forces)
+            {
+                data["TaskForces"][taskforce.UniqueId] = taskforce.UniqueId;
+
+
+                foreach (var force in taskforce.Forces.Select((value, index) => new { value, index }))
+                {
+                    data[taskforce.UniqueId][force.index.ToString()] = force.value.Item2 + "," + force.value.Item1;
+                }
+
+                data[taskforce.UniqueId]["Name"] = taskforce.Name ?? taskforce.UniqueId;
+                data[taskforce.UniqueId]["Group"] = "-1";
+            }
+
+            foreach(var team in teams)
+            {
+                data["TeamTypes"][team.UniqueId] = team.UniqueId;
+
+                data[team.UniqueId]["Name"] = team.TeamOption.Name ?? team.UniqueId;
+                data[team.UniqueId]["TaskForce"] = team.TaskForceKey;
+                data[team.UniqueId]["Script"] = team.ScriptKey;
+                data[team.UniqueId]["Max"] = team.TeamOption.Max.ToString();
+                data[team.UniqueId]["Full"] = team.TeamOption.Full ? "yes" : "no";
+                data[team.UniqueId]["Group"] = team.TeamOption.Group.ToString();
+                data[team.UniqueId]["House"] = team.TeamOption.House;
+                data[team.UniqueId]["Whiner"] = team.TeamOption.Whiner ? "yes" : "no";
+                data[team.UniqueId]["Droppod"] = team.TeamOption.Droppod ? "yes" : "no";
+                data[team.UniqueId]["Suicide"] = team.TeamOption.Suicide ? "yes" : "no";
+                data[team.UniqueId]["Loadable"] = team.TeamOption.Loadable ? "yes" : "no";
+                data[team.UniqueId]["Prebuild"] = team.TeamOption.Prebuild ? "yes" : "no";
+                data[team.UniqueId]["Priority"] = team.TeamOption.Priority.ToString();
+                data[team.UniqueId]["WayPoint"] = team.TeamOption.WayPoint is not null ? team.TeamOption.WayPoint.Value.ToString() : "" ;
+
+                data[team.UniqueId]["Annoyance"] = team.TeamOption.Annoyance ? "yes" : "no";
+                data[team.UniqueId]["IonImmune"] = team.TeamOption.IonImmune ? "yes" : "no";
+                data[team.UniqueId]["Recruiter"] = team.TeamOption.Recruiter ? "yes" : "no";
+                data[team.UniqueId]["Reinforce"] = team.TeamOption.Reinforce ? "yes" : "no";
+                data[team.UniqueId]["TechLevel"] = team.TeamOption.TechLevel.ToString();
+                data[team.UniqueId]["Aggressive"] = team.TeamOption.Aggressive ? "yes" : "no";
+                data[team.UniqueId]["Autocreate"] = team.TeamOption.Autocreate ? "yes" : "no";
+                data[team.UniqueId]["GuardSlower"] = team.TeamOption.GuardSlower ? "yes" : "no";
+                data[team.UniqueId]["OnTransOnly"] = team.TeamOption.OnTransOnly ? "yes" : "no";
+                data[team.UniqueId]["AvoidThreats"] = team.TeamOption.AvoidThreats ? "yes" : "no";
+                data[team.UniqueId]["LooseRecruit"] = team.TeamOption.LooseRecruit ? "yes" : "no";
+                data[team.UniqueId]["VeteranLevel"] = team.TeamOption.VeteranLevel.ToString();
+                data[team.UniqueId]["IsBaseDefense"] = team.TeamOption.IsBaseDefense ? "yes" : "no";
+                data[team.UniqueId]["UseTransportOrigin"] = team.TeamOption.UseTransportOrigin ? "yes" : "no";
+                if (team.TeamOption.UseTransportOrigin)
+                {
+                    data[team.UniqueId]["TransportWaypoint"] = team.TeamOption.TransportWaypoint.ToString();
+                }
+                data[team.UniqueId]["MindControlDecision"] = team.TeamOption.MindControlDecision.ToString();
+                data[team.UniqueId]["OnlyTargetHouseEnemy"] = team.TeamOption.OnlyTargetHouseEnemy ? "yes" : "no";
+                data[team.UniqueId]["TransportsReturnOnUnload"] = team.TeamOption.TransportsReturnOnUnload ? "yes" : "no";
+                data[team.UniqueId]["AreTeamMembersRecruitable"] = team.TeamOption.AreTeamMembersRecruitable ? "yes" : "no";
+
+
+            }
+
+            foreach (var script in scripts)
+            {
+                data["ScriptTypes"][script.UniqueId] = script.UniqueId;
+
+                data[script.UniqueId]["Name"] = script.Name;
+                foreach (var action in script.Scripts.Select((value, index) => new { value, index }))
+                {
+                    data[script.UniqueId][action.index.ToString()] = action.value.Item1.ToString() + "," + action.value.Item2.ToString();
+                }
+            }
         }
 
         /// <summary>
