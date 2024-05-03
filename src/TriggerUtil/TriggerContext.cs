@@ -462,7 +462,7 @@ namespace TriggerUtil
 
                 final = final.Replace(" ", "");
 
-                sb.Append($"[EnumKey(\"Name={item}\")]{final}={i},{(final==item?"":$"//notice was {item}")}\n");
+                sb.Append($"[EnumKey(Name=\"{item}\")]{final}={i},{(final==item?"":$"//notice was {item}")}\n");
             }
             return sb.ToString();
         }
