@@ -17,6 +17,7 @@ namespace TriggerUtil.AI
             var tuple = IdGenerator.NextTaskForce();
             No = tuple.id;
             UniqueId = tuple.name;
+            Forces = new List<(string, int)>();
         }
 
 

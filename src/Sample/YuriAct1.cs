@@ -11,16 +11,25 @@ namespace Sample
     {
         protected override void Process()
         {
-            var team = Context.CreateTeam()
+            var team1 = Context.CreateTeam()
                     .WithScript(x => x.MoveToWayPoint(1).MoveToWayPoint(2).MoveToWayPoint(3).Unload(UnloadResult.PassengerOnly).AttackNearestTarget(AttackTargetType.Anything).WithName("TestScript"))
                     .WithTaskForce(x => x.Add("SREF", 2).Add("MTNK", 2).Add("LCRF",1))
                     .WithOptions(opt =>
                     {
-                        opt.Name = "TestTeam";
+                        opt.Name = "TestTeam1";
                         opt.UseTransportOrigin = true;
                         opt.TransportWaypoint = 26;
                     })
                     ;
+
+            var team2 = Context.CreateTeam()
+                   .WithScript(x => x.MoveToWayPoint(1).MoveToWayPoint(2).MoveToWayPoint(3).Unload(UnloadResult.PassengerOnly).AttackNearestTarget(AttackTargetType.Anything).WithName("TestScript"))
+                   .WithTaskForce(x => x.Add("SREF", 2).Add("MTNK", 2).Add("LCRF", 1))
+                   .WithOptions(opt =>
+                   {
+                       opt.Name = "TestTeam2";
+                       opt.WayPoint = 36;
+                   });
 
             Context.CreateTrigger().Name("Start").SetGroup("开场").SetDescription("只是个注释").Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisablePlayerControl().DisableSelf())
                .Next(x => x.Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisableSelf().PlayEva(Eva.EVA_EstablishBattlefieldControl.GetKey())))

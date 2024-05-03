@@ -155,7 +155,7 @@ namespace TriggerUtil
                 data[team.UniqueId]["Loadable"] = team.TeamOption.Loadable ? "yes" : "no";
                 data[team.UniqueId]["Prebuild"] = team.TeamOption.Prebuild ? "yes" : "no";
                 data[team.UniqueId]["Priority"] = team.TeamOption.Priority.ToString();
-                data[team.UniqueId]["WayPoint"] = team.TeamOption.WayPoint is not null ? team.TeamOption.WayPoint.Value.ToString() : "" ;
+                data[team.UniqueId]["WayPoint"] = team.TeamOption.WayPoint is not null ? team.TeamOption.WayPoint.Value.To26() : "" ;
 
                 data[team.UniqueId]["Annoyance"] = team.TeamOption.Annoyance ? "yes" : "no";
                 data[team.UniqueId]["IonImmune"] = team.TeamOption.IonImmune ? "yes" : "no";
@@ -173,7 +173,7 @@ namespace TriggerUtil
                 data[team.UniqueId]["UseTransportOrigin"] = team.TeamOption.UseTransportOrigin ? "yes" : "no";
                 if (team.TeamOption.UseTransportOrigin)
                 {
-                    data[team.UniqueId]["TransportWaypoint"] = team.TeamOption.TransportWaypoint.ToString();
+                    data[team.UniqueId]["TransportWaypoint"] = team.TeamOption.TransportWaypoint.To26();
                 }
                 data[team.UniqueId]["MindControlDecision"] = team.TeamOption.MindControlDecision.ToString();
                 data[team.UniqueId]["OnlyTargetHouseEnemy"] = team.TeamOption.OnlyTargetHouseEnemy ? "yes" : "no";
