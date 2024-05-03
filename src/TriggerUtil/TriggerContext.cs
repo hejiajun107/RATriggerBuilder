@@ -155,7 +155,7 @@ namespace TriggerUtil
                 data[team.UniqueId]["Loadable"] = team.TeamOption.Loadable ? "yes" : "no";
                 data[team.UniqueId]["Prebuild"] = team.TeamOption.Prebuild ? "yes" : "no";
                 data[team.UniqueId]["Priority"] = team.TeamOption.Priority.ToString();
-                data[team.UniqueId]["WayPoint"] = team.TeamOption.WayPoint is not null ? team.TeamOption.WayPoint.Value.To26() : "" ;
+                data[team.UniqueId]["Waypoint"] = team.TeamOption.WayPoint is not null ? team.TeamOption.WayPoint.Value.To26() : "" ;
 
                 data[team.UniqueId]["Annoyance"] = team.TeamOption.Annoyance ? "yes" : "no";
                 data[team.UniqueId]["IonImmune"] = team.TeamOption.IonImmune ? "yes" : "no";
