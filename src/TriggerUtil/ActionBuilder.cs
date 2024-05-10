@@ -1059,7 +1059,7 @@ namespace TriggerUtil
         /// <returns></returns>
         public ActionBuilder SetTimerLabel(string label)
         {
-            Actions.Add($"103,4,css,0,0,0,0,A");
+            Actions.Add($"103,4,{label},0,0,0,0,A");
             return this;
         }
 

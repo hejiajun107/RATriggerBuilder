@@ -16,10 +16,10 @@ namespace TriggerUtil
 {
     public class TriggerContext
     {
-        private List<TriggerBuilder> triggers = new List<TriggerBuilder>();
-        private List<TeamBuilder> teams = new List<TeamBuilder>();
-        private List<TaskForceBuilder> forces = new List<TaskForceBuilder>();
-        private List<ScriptBuilder> scripts = new List<ScriptBuilder>();
+        public List<TriggerBuilder> triggers = new List<TriggerBuilder>();
+        public List<TeamBuilder> teams = new List<TeamBuilder>();
+        public List<TaskForceBuilder> forces = new List<TaskForceBuilder>();
+        public List<ScriptBuilder> scripts = new List<ScriptBuilder>();
 
 
         public TriggerBuilder CreateTrigger()

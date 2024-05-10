@@ -78,6 +78,11 @@ namespace TriggerUtil
         /// </summary>
         private string? _owner;
 
+        public List<string> GetTeamIds()
+        {
+            return _actionBuilder.TeamNodes.Select(x => x).ToList();
+        }
+
         public TriggerBuilder SetGroup(string groupName)
         {
             TriggerGroup = new TriggerGroup()
