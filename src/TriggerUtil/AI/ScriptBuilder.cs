@@ -386,6 +386,38 @@ namespace TriggerUtil.AI
         }
 
 
+        /// <summary>
+        /// 闪烁一队一段时间（参数为帧数）
+        /// </summary>
+        /// <returns></returns>
+        public ScriptBuilder Flash(int frames)
+        {
+            Scripts.Add((50, frames));
+            return this;
+        }
+
+   
+
+
+        /// <summary>
+        /// 播放动画
+        /// </summary>
+        /// <returns></returns>
+        public ScriptBuilder PlayAnim(int animIndex)
+        {
+            Scripts.Add((51, animIndex));
+            return this;
+        }
+
+        /// <summary>
+        /// 闪烁一队一段时间（参数为帧数）
+        /// </summary>
+        /// <returns></returns>
+        public ScriptBuilder Dialog(DialogType dialogType)
+        {
+            Scripts.Add((52, dialogType.GetHashCode()));
+            return this;
+        }
 
     }
 }
