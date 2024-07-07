@@ -564,7 +564,7 @@ namespace TriggerUtil
         /// <returns></returns>
         public ActionBuilder ChangeAllHouse(Enum house)
         {
-            return ChangeAllHouse(house);
+            return ChangeAllHouse(house.GetHashCode());
         }
 
         /// <summary>
