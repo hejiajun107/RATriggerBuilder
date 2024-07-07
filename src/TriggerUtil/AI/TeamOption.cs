@@ -95,6 +95,11 @@ namespace TriggerUtil.AI
         /// </summary>
         public int Max { get; set; } = 5;
 
+        /// <summary>
+        /// 挂载标签
+        /// </summary>
+        public string Tag { get; set; }
+
         public int TechLevel { get; set; } = 0;
 
         /// <summary>

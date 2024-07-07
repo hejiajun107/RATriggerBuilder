@@ -143,6 +143,10 @@ namespace TriggerUtil
                 data["TeamTypes"][team.UniqueId] = team.UniqueId;
 
                 data[team.UniqueId]["Name"] = team.TeamOption.Name ?? team.UniqueId;
+                if (!string.IsNullOrWhiteSpace(team.TeamOption.Tag))
+                {
+                    data[team.UniqueId]["Tag"] = team.TeamOption.Tag;
+                }
                 data[team.UniqueId]["TaskForce"] = team.TaskForceKey;
                 data[team.UniqueId]["Script"] = team.ScriptKey;
                 data[team.UniqueId]["Max"] = team.TeamOption.Max.ToString();
