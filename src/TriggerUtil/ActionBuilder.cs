@@ -1116,5 +1116,29 @@ namespace TriggerUtil
 
 
         #endregion
+
+
+        #region Phobos
+
+
+        /// <summary>
+        /// 发射指定超武
+        /// </summary>
+        /// <param name="SuperWeapon">超武</param>
+        /// <param name="House">所属方</param>
+        /// <param name="waypoint">路径点</param>
+        /// <returns></returns>
+        public ActionBuilder FireSuperWeaponAt(Enum superWeapon,Enum house,int waypoint)
+        {
+            Actions.Add($"506,0,0,{superWeapon.GetHashCode()},{house.GetHashCode()},{waypoint},0,A");
+            return this;
+        }
+
+        public ActionBuilder FireSuperWeaponAt(int superWeapon, int house, int waypoint)
+        {
+            Actions.Add($"506,0,0,{superWeapon.GetHashCode()},house,{waypoint},0,A");
+            return this;
+        }
+        #endregion
     }
 }
