@@ -56,7 +56,9 @@ namespace TriggerUtil.AI
         public bool Prebuild { get; set; } = false;
 
         public bool Reinforce { get; set; } = false;
-
+        /// <summary>
+        /// 是否空降
+        /// </summary>
         public bool Droppod { get; set; } = false;
 
         public bool UseTransportOrigin { get; set; } = false;
