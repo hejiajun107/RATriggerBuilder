@@ -675,7 +675,7 @@ namespace TriggerUtil
         /// <returns></returns>
         public ActionBuilder ExplodeWeaponAt(Enum weaponType, int wayPoint)
         {
-            return ExplodeWeaponAt(weaponType.GetHashCode(), wayPoint);
+            return ExplodeWeaponAt(weaponType.GetHashCode() + 1, wayPoint);
         }
 
         /// <summary>
