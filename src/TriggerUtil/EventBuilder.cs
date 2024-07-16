@@ -672,7 +672,7 @@ namespace TriggerUtil
         /// <returns></returns>
         public EventBuilder AttackedByHouse(Enum house)
         {
-            return AttackedByHouse(house);
+            return AttackedByHouse(house.GetHashCode());
         }
 
         /// <summary>
