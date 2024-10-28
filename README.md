@@ -17,10 +17,14 @@
                ;
 ```
 
+Generator previews:
+![4f526633b8b38a7a250f4cbc662228eb](https://github.com/user-attachments/assets/b7552808-88f7-4100-99ba-909d951c83a2)
+![2cb2220cf4f1cc265274fc0614955c59](https://github.com/user-attachments/assets/11890bfb-f2df-46da-82c3-1d073249055b)
+
 ### what to do next
 * Fullfill the actions and events
-* Provide tools to generate code from ini
-* Support writing AI teams/scripts with fluent api
+√ Provide tools to generate code from ini
+√ Support writing AI teams/scripts with fluent api
 
 ### Credits
 All annotions is from FA2SP
