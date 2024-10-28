@@ -23,9 +23,9 @@ Generator previews:
 
 ### what to do next
 * Fullfill the actions and events
-√ Provide tools to generate code from ini
-√ Support writing AI teams/scripts with fluent api
+<br>√ Provide tools to generate code from ini
+<br>√ Support writing AI teams/scripts with fluent api
 
 ### Credits
 All annotions is from FA2SP
-Annotions of AI is from AI的艺♂术(2019年4月版AI教程) by Madman_M
+<br>Annotions of AI is from AI的艺♂术(2019年4月版AI教程) by Madman_M
