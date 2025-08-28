@@ -77,7 +77,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 移动到路径点
+        /// 移动到坐标
         /// </summary>
         /// <param name="x">x</param>
         /// <param name="y">y</param>
@@ -100,9 +100,9 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 跳转到当前Script的第n(n=索引+1)行。
+        /// 跳转到当前Script的第n(从1开始)行。
         /// </summary>
-        /// <param name="row">行数(索引+1)</param>
+        /// <param name="row">行数(从1开始)</param>
         /// <returns></returns>
         public ScriptBuilder SkipTo(int row)
         {
@@ -133,7 +133,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 部署(步兵、基地车、武装直升机皆有效)
+        /// 所有可部署单位进行部署，会尝试驱散阻挡的友军单位。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Deploy()
@@ -143,7 +143,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 跟随最近的友好单位。(如果写在Script的第一行，将会无条件跟随产生的第一个小队)
+        /// 令小队跟随最近的友军单位。移动到友军单位附近后完成脚本。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder FollowFriendly()
@@ -153,7 +153,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 进入第n种状态
+        /// 小队所有成员执行指定任务。成员会一直执行这个脚本。
         /// </summary>
         /// <param name="mission">状态</param>
         /// <returns></returns>
@@ -164,7 +164,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 队伍中存在有Passengers位置的运输工具，并且其余单位Size和PhysicalSize满足运输条件时，乘客们进入运输工具。(实际使用时，一个队伍里只能存在1个运输工具)(运输步兵时可以在14,0之后加43,0保证单位装载完毕，运输车辆时不可接43,0)
+        /// 如果存在载员和未装满载具，则要求载员进入载具，但不考虑载具SizeLimit，也不考虑剩余位置能否装下载员，可能会因装载而卡住。在装载完所有成员、载具被装满、不存在载具时结束该动作。如果条件不能被满足，脚本会卡在这里。若存在多个载具，会将特遣中行数最靠下的载具视为载具，无视其他条件。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder EnterTransport()
@@ -174,7 +174,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 沿着n号路径点巡逻。巡逻途中会按照PatrolScan搜寻附近敌人并与敌人交战。通常用于任务，多了会卡……
+        /// 小队成员移动攻击到指定路径点，会积极攻击射程内的敌人。其余表现同脚本3 - 移动到路径点。
         /// </summary>
         /// <param name="wayPoint">路径点</param>
         /// <returns></returns>
@@ -184,7 +184,7 @@ namespace TriggerUtil.AI
             return this;
         }
         /// <summary>
-        /// 变为执行第n号脚本(n为该脚本在注册列表中的【顺序号】而非索引号，从0开始)。理论上可以用来实现超过50行的脚本……
+        /// Obsolete
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -194,7 +194,7 @@ namespace TriggerUtil.AI
             return this;
         }
         /// <summary>
-        /// 改变小队，让当前小队加入第n号小队(n为该小队在注册列表中的【顺序号】而非索引号，从0开始)。理论上可以用来实现超过6行的大队……
+        /// 让小队更改小队类型，如果新小队的特遣与本小队成员有重叠，则会依据招募逻辑招募这些成员，并且改变成员的分组(即使新小队没有勾选忽视分组)，其余成员会被解散。参数为包含ai(md)中小队的从0开始的索引。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -205,7 +205,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 恐慌，小队中有Fraidycat标签的成员会乱跑,并且播放Panic序列，没有该标签的会卧倒。
+        /// 让小队所有步兵惊慌一次，Fraidycat=yes的步兵会使用Panic序列，其余步兵会卧倒。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Panic()
@@ -226,7 +226,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 变更所属方
+        /// 小队成员全部更改为特定所属方(参数为国家编号)。
         /// </summary>
         /// <param name="house"></param>
         /// <returns></returns>
@@ -237,7 +237,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 分散部队，某些情况下有奇效。
+        /// 让所有单位分散，类似于玩家按X。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Scatter()
@@ -247,7 +247,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 进入周围的黑幕
+        /// 让所有单位逃到有黑幕的地方。车辆成员会在执行中获得移动攻击能力。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder MoveIntoShround()
@@ -267,7 +267,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 任务中用于让AI自动建造。
+        /// 让所属方开始建造建筑物，效果同触发行为3。IQ>Production的所属方始终会自动建造，不需要本脚本。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder StartProduce()
@@ -277,7 +277,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 卖家一波流。
+        /// 让AI所属方变卖所有建筑并让所有单位进入寻敌(Hunt)状态，效果同触发行为9。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder SellAndWula()
@@ -287,7 +287,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 小队自毁
+        /// 让该小队所有成员自毁，会触发死亡武器，会播放Unit Lost语音。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Sucide()
@@ -297,7 +297,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 镇定，与19相反
+        /// 使所有小队成员停止惊慌。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Calm()
@@ -307,7 +307,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 改变朝向。
+        /// 强制小队成员面向一个特定的方向，执行后立即跳转至下一条，不会等待转向完成。
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
@@ -376,7 +376,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 侦查。(遭遇战无效)
+        /// 小队会侦察玩家未探索的区域。如果要持续侦查，应当循环执行此脚本。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Detect()
@@ -387,7 +387,7 @@ namespace TriggerUtil.AI
 
 
         /// <summary>
-        /// 闪烁一队一段时间（参数为帧数）
+        /// 闪烁所有小队成员一段时间(参数为闪烁的帧数)。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Flash(int frames)
@@ -396,11 +396,11 @@ namespace TriggerUtil.AI
             return this;
         }
 
-   
+
 
 
         /// <summary>
-        /// 播放动画
+        /// 在每个小队单位上播放动画，会跟随成员运动。成员死亡动画随即消失。
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder PlayAnim(int animIndex)
@@ -410,7 +410,7 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
-        /// 闪烁一队一段时间（参数为帧数）
+        /// 在小队第一个单位上显示对话气泡。原版中需要添加素材才能生效
         /// </summary>
         /// <returns></returns>
         public ScriptBuilder Dialog(DialogType dialogType)
