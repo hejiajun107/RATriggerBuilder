@@ -147,6 +147,14 @@ namespace TriggerUtil
             {
                 data["TeamTypes"][team.UniqueId] = team.UniqueId;
 
+                if (map is not null)
+                {
+                    if (map[team.UniqueId] is not null)
+                    {
+                        map[team.UniqueId].RemoveAllKeys();
+                    }
+                }
+
                 data[team.UniqueId]["Name"] = team.TeamOption.Name ?? team.UniqueId;
                 if (!string.IsNullOrWhiteSpace(team.TeamOption.Tag))
                 {
