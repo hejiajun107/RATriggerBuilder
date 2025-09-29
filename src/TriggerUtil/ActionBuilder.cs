@@ -1080,6 +1080,20 @@ namespace TriggerUtil
         }
 
 
+        /// <summary>
+        /// 创建工具箱...
+        /// 在指定路径点创建一个指定内容的升级工具箱
+        /// </summary>
+        /// <param name="crateType">箱子类型</param>
+        /// <param name="wayPoint">路径点</param>
+        /// <returns></returns>
+        public ActionBuilder CreateCrateAt(Enum crateType, int wayPoint)
+        {
+            Actions.Add($"108,0,{crateType.GetHashCode()},0,0,0,0,{wayPoint.To26()}");
+            return this;
+        }
+
+
 
         /// <summary>
         /// 让特定所属方的所有空闲的步兵单位执行欢呼动作。

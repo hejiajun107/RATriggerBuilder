@@ -115,6 +115,17 @@ namespace TriggerUtil
             return this;
         }
 
+        /// <summary>
+        /// 设置为一个固定的Tag，方便在地编里设置标签时保持不变
+        /// </summary>
+        /// <param name="tag">tag名称，唯一</param>
+        /// <returns></returns>
+        public TriggerBuilder SetCustomTag(string tag)
+        {
+            Tag = tag;
+            return this;
+        }
+
         public TriggerBuilder Repeat(RepeatType repeatType)
         {
             RepeatType = repeatType;

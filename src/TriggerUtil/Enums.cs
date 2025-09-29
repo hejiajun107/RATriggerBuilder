@@ -278,4 +278,98 @@ namespace TriggerUtil
         /// </summary>
         ExclamationMark = 3
     }
+
+    public enum CrateType
+    {
+        /// <summary>
+        /// 大量金钱(固定值)
+        /// </summary>
+        Money = 0,
+
+        /// <summary>
+        /// 随机单位
+        /// </summary>
+        RandomUnit = 1,
+
+        /// <summary>
+        /// 医疗
+        /// </summary>
+        Heal = 2,
+
+        /// <summary>
+        /// 隐形
+        /// </summary>
+        Invisibility = 3,
+
+        /// <summary>
+        /// 爆炸
+        /// </summary>
+        Explosion = 4,
+
+        /// <summary>
+        /// 大型爆炸
+        /// </summary>
+        BigExplosion = 5,
+
+        /// <summary>
+        /// 金钱(随机)
+        /// </summary>
+        RandomMoney = 6,
+
+        /// <summary>
+        /// 重置黑幕
+        /// </summary>
+        ResetFogOfWar = 7,
+
+        /// <summary>
+        /// 显示全图
+        /// </summary>
+        RevealMap = 8,
+
+        /// <summary>
+        /// 防御力强化
+        /// </summary>
+        ArmorMultiplier = 9,
+
+        /// <summary>
+        /// 速度强化
+        /// </summary>
+        SpeedMultiplier = 10,
+
+        /// <summary>
+        /// 火力强化
+        /// </summary>
+        FirepowerMultiplier = 11,
+
+        /// <summary>
+        /// 一次核弹
+        /// </summary>
+        Nuke = 12,
+
+        /// <summary>
+        /// 空（无效果）
+        /// </summary>
+        Empty1 = 13,
+
+        /// <summary>
+        /// 升级
+        /// </summary>
+        Veteran = 14,
+
+        /// <summary>
+        /// 空（无效果）
+        /// </summary>
+        Empty2 = 15,
+
+        /// <summary>
+        /// 毒气
+        /// </summary>
+        Gas = 16,
+
+        /// <summary>
+        /// 一片矿
+        /// </summary>
+        OrePatch = 17
+    }
+
 }
