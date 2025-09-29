@@ -73,7 +73,7 @@ namespace TriggerUtil
             var fileinfo = new FileInfo(path);
 
             IniData data = new IniData();
-            SetIniData(data);
+            SetIniData(data, null);
 
             var parser = new FileIniDataParser();
 
@@ -102,19 +102,19 @@ namespace TriggerUtil
             if (!File.Exists(path))
                 throw new ArgumentException("File Not Exsist");
 
-            IniData data = new IniData();
-            SetIniData(data);
-
             var parser = new FileIniDataParser();
-
             var map = parser.ReadFile(path);
+
+            IniData data = new IniData();
+            SetIniData(data,map);
+
             map.Merge(data);
             parser.WriteFile(path, map);
 
             return true;
         }
 
-        private void SetIniData(IniData data)
+        private void SetIniData(IniData data,IniData map)
         {
             foreach (var trigger in triggers)
             {
@@ -127,8 +127,13 @@ namespace TriggerUtil
             foreach(var taskforce in forces)
             {
                 data["TaskForces"][taskforce.UniqueId] = taskforce.UniqueId;
-
-
+                if(map is not null)
+                {
+                    if (map[taskforce.UniqueId] is not null)
+                    {
+                        map[taskforce.UniqueId].RemoveAllKeys();
+                    }
+                }
                 foreach (var force in taskforce.Forces.Select((value, index) => new { value, index }))
                 {
                     data[taskforce.UniqueId][force.index.ToString()] = force.value.Item2 + "," + force.value.Item1;
@@ -190,6 +195,13 @@ namespace TriggerUtil
             foreach (var script in scripts)
             {
                 data["ScriptTypes"][script.UniqueId] = script.UniqueId;
+                if (map is not null)
+                {
+                    if (map[script.UniqueId] is not null)
+                    {
+                        map[script.UniqueId].RemoveAllKeys();
+                    }
+                }
 
                 data[script.UniqueId]["Name"] = script.Name;
                 foreach (var action in script.Scripts.Select((value, index) => new { value, index }))
