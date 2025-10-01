@@ -297,6 +297,18 @@ namespace TriggerUtil.AI
         }
 
         /// <summary>
+        /// 删除该小队所有成员，成员凭空消失，不会触发Unit Lost语音。
+        /// </summary>
+        /// <returns></returns>
+        public ScriptBuilder DeleteTeam() 
+        {
+            Scripts.Add((37, 0));
+            return this;
+        }
+
+
+
+        /// <summary>
         /// 使所有小队成员停止惊慌。
         /// </summary>
         /// <returns></returns>
@@ -418,6 +430,21 @@ namespace TriggerUtil.AI
             Scripts.Add((52, dialogType.GetHashCode()));
             return this;
         }
+
+
+
+
+        /// <summary>
+        ///  攻占路径点上的建筑
+        /// 攻击占据该路径点的建筑物。AI间谍类单位(渗透、占领、C4、驻扎、突击者)能够正常攻击、驻扎建筑，人类玩家除C4外无法正常使用。如果路径点上没有建筑，则会跳过该脚本。如果该建筑是友军，则会在原地锁定直至对象消失，人类玩家单位会攻击友军。
+        /// </summary>
+        /// <returns></returns>
+        public ScriptBuilder AttackBuildingOnWaypoint(int waypoint)
+        {
+            Scripts.Add((59,waypoint));
+            return this;
+        }
+
 
     }
 }
