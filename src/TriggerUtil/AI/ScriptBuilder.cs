@@ -446,5 +446,29 @@ namespace TriggerUtil.AI
         }
 
 
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 区域警戒（时间计数(Phobos B31+)）
+        /// 原地区域警戒(Area Guard) X 秒。区域警戒的单位将更加激进的处理附近敌军单位。(Phobos B31+)
+        /// </summary>
+        /// <param name="seconds">秒</param>
+        /// <returns></returns>
+        public ScriptBuilder AreaGuard(int seconds)
+        {
+            Scripts.Add((10100, seconds));
+            return this;
+        }
+
+
+
+
+
     }
 }
