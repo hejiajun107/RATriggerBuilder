@@ -15,11 +15,15 @@ namespace TriggerUtil
         public static Func<int, (string, string)> NextTaskForceAction = count => ("A" + TaskForceCounter.ToString().PadLeft(5, '0'), ("03B" + TaskForceCounter.ToString().PadLeft(5, '0') + "-G"));
         public static Func<int, (string, string)> NextScriptAction = count => ("A" + ScriptCounter.ToString().PadLeft(5, '0'), ("03C" + ScriptCounter.ToString().PadLeft(5, '0') + "-G"));
 
-
         public static (string trigger,string tag) NextId()
         {
             TriggerCounter++;
             return NextIdAction(TriggerCounter);
+        }
+
+        public static (string trigger, string tag) NextFixedId(int num)
+        {
+            return ("03D" + num.ToString().PadLeft(5, '0'), ("03E" + num.ToString().PadLeft(5, '0')));
         }
 
         private static int TeamCounter = 0;

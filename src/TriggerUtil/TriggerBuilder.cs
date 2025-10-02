@@ -12,13 +12,24 @@ namespace TriggerUtil
     public class TriggerBuilder
     {
 
-        internal TriggerBuilder(TriggerContext context) 
+        internal TriggerBuilder(TriggerContext context,int fixedNum = -1) 
         {
             _context = context;
-            var id = IdGenerator.NextId();
-            UniqueId = id.trigger;
-            TriggerName = UniqueId;
-            Tag = id.tag;
+            if(fixedNum > 0)
+            {
+                var id = IdGenerator.NextFixedId(fixedNum);
+                UniqueId = id.trigger;
+                TriggerName = UniqueId;
+                Tag = id.tag;
+            }
+            else
+            {
+                var id = IdGenerator.NextId();
+                UniqueId = id.trigger;
+                TriggerName = UniqueId;
+                Tag = id.tag;
+            }
+       
 
             _actionBuilder = new ActionBuilder(this);
             _eventBuilder = new EventBuilder(this);

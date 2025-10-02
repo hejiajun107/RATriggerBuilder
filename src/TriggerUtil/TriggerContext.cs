@@ -22,9 +22,14 @@ namespace TriggerUtil
         public List<ScriptBuilder> scripts = new List<ScriptBuilder>();
 
 
-        public TriggerBuilder CreateTrigger()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fixedId">是否固定触发id(不可重复)</param>
+        /// <returns></returns>
+        public TriggerBuilder CreateTrigger(int fixedId = -1)
         {
-            var trigger = new TriggerBuilder(this);
+            var trigger = new TriggerBuilder(this,fixedId);
             triggers.Add(trigger);
             return trigger;
         }
