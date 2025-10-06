@@ -1128,6 +1128,55 @@ namespace TriggerUtil
             return this;
         }
 
+        /// <summary>
+        /// 强制使建造栏跳转到指定的界面。
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public ActionBuilder SwtichTabTo(TabType tab)
+        {
+            return SwtichTabTo(tab.GetHashCode());
+        }
+
+        /// <summary>
+        /// 强制使建造栏跳转到指定的界面。
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public ActionBuilder SwtichTabTo(int tab)
+        {
+            Actions.Add($"114,0,{tab},0,0,0,0,A");
+            return this;
+        }
+
+        /// <summary>
+        /// 闪烁建造栏中指定类型的图标，持续一定帧数(游戏中1秒=15帧)。数值一般填120比较合适。
+        /// </summary>
+        /// <param name="technoType"></param>
+        /// <param name="frames"></param>
+        /// <returns></returns>
+        public ActionBuilder FlashCameo(string technoType,int frames)
+        {
+            Actions.Add($"115,9,{technoType},0,0,0,0,{frames}");
+            return this;
+        }
+
+        /// <summary>
+        /// 触发所属方会在特定路径点获得指定类型的建筑。此行为会试图解决路径点堵塞(如单位恰好在建筑格子上)，若失败则不会建造。Phobos平台可以指定是否AI修复，会默认播放建造动画。
+        /// </summary>
+        /// <param name="buildingType"></param>
+        /// <param name="dontPlayBuildUpAnim"></param>
+        /// <param name="aiRepairing"></param>
+        /// <param name="waypoint"></param>
+        /// <returns></returns>
+        public ActionBuilder TryBuildAt(string buildingType,bool dontPlayBuildUpAnim,bool aiRepairing, int waypoint)
+        {
+            Actions.Add($"125,10,{buildingType},{(dontPlayBuildUpAnim ? 1 : 0)},{(aiRepairing ? 1 : 0)},0,0,{waypoint.To26()}");
+            return this;
+        }
+
+
+
 
         #endregion
 

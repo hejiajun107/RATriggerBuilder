@@ -372,4 +372,11 @@ namespace TriggerUtil
         OrePatch = 17
     }
 
+    public enum TabType
+    {
+        Building = 0,
+        Defence = 1,
+        Infantry = 2,
+        Vehicle = 3
+    }
 }
