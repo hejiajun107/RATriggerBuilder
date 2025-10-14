@@ -937,6 +937,64 @@ namespace TriggerUtil
             return this;
         }
 
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 所有对象全部被摧毁
+        /// [Ares]当特定所属方不再拥有可以保持存活(具有KeepAlive=yes属性)的「物体」时，此事件被满足。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public EventBuilder ObjectKeepAliveObjectDestroyed(Enum house)
+        {
+            return ObjectKeepAliveObjectDestroyed(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 所有对象全部被摧毁
+        /// [Ares]当特定所属方不再拥有可以保持存活(具有KeepAlive=yes属性)的「物体」时，此事件被满足。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public EventBuilder ObjectKeepAliveObjectDestroyed(int house)
+        {
+            Events.Add($"87,0,{house}");
+            return this;
+        }
+
+
+
+
+        /// <summary>
+        /// 所有对象全部被摧毁
+        /// [Ares]当特定所属方不再拥有可以保持存活(具有KeepAlive=yes属性)的「建筑」时，此事件被满足。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public EventBuilder ObjectKeepAliveBuildingDestroyed(Enum house)
+        {
+            return ObjectKeepAliveBuildingDestroyed(house.GetHashCode());
+        }
+
+        /// <summary>
+        /// 所有对象全部被摧毁
+        /// [Ares]当特定所属方不再拥有可以保持存活(具有KeepAlive=yes属性)的「建筑」时，此事件被满足。。
+        /// </summary>
+        /// <param name="house">所属方</param>
+        /// <returns></returns>
+        public EventBuilder ObjectKeepAliveBuildingDestroyed(int house)
+        {
+            Events.Add($"88,0,{house}");
+            return this;
+        }
+
+
         #endregion
 
     }
