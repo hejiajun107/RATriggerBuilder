@@ -951,9 +951,9 @@ namespace TriggerUtil
         /// </summary>
         /// <param name="house">所属方</param>
         /// <returns></returns>
-        public EventBuilder ObjectKeepAliveObjectDestroyed(Enum house)
+        public EventBuilder KeepAliveObjectAllDestroyed(Enum house)
         {
-            return ObjectKeepAliveObjectDestroyed(house.GetHashCode());
+            return KeepAliveObjectAllDestroyed(house.GetHashCode());
         }
 
         /// <summary>
@@ -962,7 +962,7 @@ namespace TriggerUtil
         /// </summary>
         /// <param name="house">所属方</param>
         /// <returns></returns>
-        public EventBuilder ObjectKeepAliveObjectDestroyed(int house)
+        public EventBuilder KeepAliveObjectAllDestroyed(int house)
         {
             Events.Add($"87,0,{house}");
             return this;
@@ -977,9 +977,9 @@ namespace TriggerUtil
         /// </summary>
         /// <param name="house">所属方</param>
         /// <returns></returns>
-        public EventBuilder ObjectKeepAliveBuildingDestroyed(Enum house)
+        public EventBuilder KeepAliveBuildingAllDestroyed(Enum house)
         {
-            return ObjectKeepAliveBuildingDestroyed(house.GetHashCode());
+            return KeepAliveBuildingAllDestroyed(house.GetHashCode());
         }
 
         /// <summary>
@@ -988,7 +988,7 @@ namespace TriggerUtil
         /// </summary>
         /// <param name="house">所属方</param>
         /// <returns></returns>
-        public EventBuilder ObjectKeepAliveBuildingDestroyed(int house)
+        public EventBuilder KeepAliveBuildingAllDestroyed(int house)
         {
             Events.Add($"88,0,{house}");
             return this;
