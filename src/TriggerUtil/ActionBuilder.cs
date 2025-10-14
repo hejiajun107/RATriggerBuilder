@@ -1175,6 +1175,28 @@ namespace TriggerUtil
             return this;
         }
 
+        /// <summary>
+        /// 重置超武冷却时间
+        /// </summary>
+        /// <param name="superWeaponType"></param>
+        /// <returns></returns>
+        public ActionBuilder RechargeSuperWeapon(Enum superWeaponType)
+        {
+            return RechargeSuperWeapon(superWeaponType.GetHashCode());
+        }
+
+        /// <summary>
+        /// 重置超武冷却时间
+        /// </summary>
+        /// <param name="superWeaponType"></param>
+        /// <returns></returns>
+        public ActionBuilder RechargeSuperWeapon(int superWeaponType)
+        {
+            Actions.Add($"134,0,{superWeaponType},0,0,0,0,A");
+            return this;
+        }
+
+
 
 
 
