@@ -14,7 +14,7 @@ A library to write triggers in RA2 with fluent api
 - **AI Script Support** - Also supports writing AI teams and scripts with fluent API
   > **AI 脚本支持** - 同样支持用流畅 API 编写 AI 队伍和脚本
 
-### ✨ Advantages / 优势
+## ✨ Advantages / 优势
 - **Development Efficiency Improvement** - Compared to manually writing INI configuration, code writing speed increases by 3-5 times
   > **开发效率提升** - 相比手动编写 INI 配置，代码编写速度提升 3-5 倍
 - **Excellent Maintainability** - After modifying global settings like country registry, recompile to synchronize updates to all related triggers
@@ -26,7 +26,7 @@ A library to write triggers in RA2 with fluent api
 - **Low Learning Cost** - If you are familiar with C#, you can get started almost immediately
   > **学习成本低** - 如果你熟悉 C#，几乎可以立即上手
 
-### 💡 Benefits / 实际收益
+## 💡 Benefits / 实际收益
 - **Save Significant Time** - Complex trigger chains that originally took hours to manually configure now only require a few minutes of coding
   > **节省大量时间** - 原本需要数小时手动配置的复杂触发器链，现在只需几分钟代码编写
 - **Reduce Error Rate** - Strong type system prevents common spelling errors and parameter errors
@@ -38,7 +38,7 @@ A library to write triggers in RA2 with fluent api
 - **Long-term Maintainability** - Even after months of review, the clear API allows you to quickly understand the original logic
   > **长期可维护** - 即使数月后回顾代码，清晰的 API 也能让你快速理解原有逻辑
 
-### Usage Example / 使用示例
+## Usage Example / 使用示例
 ```c#
             Context.CreateTrigger().Name("Start").SetDescription("只是个注释").Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisablePlayerControl().DisableSelf())
                .Next(x => x.Owner(Country.YuriCountry).When(e => e.Anything()).Then(a => a.DisableSelf().PlayEva(Eva.EVA_EstablishBattlefieldControl.ToString())))
@@ -59,7 +59,7 @@ Generator previews:
 ![4f526633b8b38a7a250f4cbc662228eb](https://github.com/user-attachments/assets/b7552808-88f7-4100-99ba-909d951c83a2)
 ![2cb2220cf4f1cc265274fc0614955c59](https://github.com/user-attachments/assets/11890bfb-f2df-46da-82c3-1d073249055b)
 
-### what to do next / 后续计划
+## what to do next / 后续计划
 - [ ] Fullfill the actions and events
   > 完善所有动作和事件的 API 支持
 - [x] Provide tools to generate code from ini
@@ -67,7 +67,7 @@ Generator previews:
 - [x] Support writing AI teams/scripts with fluent api
   > 支持用流畅 API 编写 AI 队伍/脚本
 
-### Credits / 致谢
+## Credits / 致谢
 - All annotions is from FA2SP
   > 所有注释来自 FA2SP
 - Annotions of AI is from AI的艺♂术(2019年4月版AI教程) by Madman_M
